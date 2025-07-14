@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "用 AI 把 PDF 一键变成能玩的可视化网页，这不比 PPT 酷多了。"
-date: 2024-07-15 10:00:00 +0800
+date: 2025-03-12 17:00:00 +0800
 categories: [AI, Web]
 tags: [AI, PDF, Web, 可视化]
 author: 卡兹克
@@ -9,7 +9,7 @@ author: 卡兹克
 
 前几天，看到好基友歸藏在 X 上发了一个帖子：
 
-![Placeholder Image](https://via.placeholder.com/640x360?text=Please+Replace+This+Image+Link)
+![AI PDF to Webpage](assets/img/2025-03-12/1.webp)
 
 还挺爆，一天半的时间过去，已经有 17.3 万的阅读了。
 
@@ -27,11 +27,11 @@ author: 卡兹克
 
 https://lisa94destiny.github.io/physics-simulation/index.html
 
-![Placeholder Image](https://via.placeholder.com/640x360?text=Please+Replace+This+Image+Link)
+![Physics Simulation](assets/img/2025-03-12/2.webp)
 
 随便打开一个其中的一个实验，动态效果是这样的。
 
-![Placeholder GIF](https://via.placeholder.com/640x360?text=Please+Replace+This+GIF+Link)
+![Physics Simulation GIF](assets/img/2025-03-12/3.gif)
 
 我只能说，佩服的五体投地。
 
@@ -125,7 +125,7 @@ Prompt 整体上基本复制就可以用，但是细节部分，你还是要改�
 
 图片这块，如果是网上现成的图片，你就直接右键图片，复制图像链接就行。
 
-![Placeholder Image](https://via.placeholder.com/640x360?text=Please+Replace+This+Image+Link)
+![Image Link Example](assets/img/2025-03-12/4.webp)
 
 如果是你自己的图片，可以使用图床服务（比如如 https://sm.ms/）托管图片，生成一个公链。
 
@@ -140,7 +140,7 @@ Prompt 整体上基本复制就可以用，但是细节部分，你还是要改�
 
 比如这个 B 站的例子。
 
-![Placeholder Image](https://via.placeholder.com/640x360?text=Please+Replace+This+Image+Link)
+![Bilibili Embed Example](assets/img/2025-03-12/5.webp)
 
 把复制下来的 HTML 代码粘贴到媒体资源那。
 
@@ -169,19 +169,19 @@ Prompt 整体上基本复制就可以用，但是细节部分，你还是要改�
 
 比如说，这个 PDF（为了保护别人的隐私，所以这个是我用纯 Claude 仿制生成的，可能有点无聊。如有雷同，就是 Claude 的锅）
 
-![Placeholder Image](https://via.placeholder.com/640x360?text=Please+Replace+This+Image+Link)
+![PDF Example](assets/img/2025-03-12/6.webp)
 
 我闲读着麻烦，直接反手改成了可视化网页。
 
 网址在这：https://jdsrt3f1pk.yourware.so/
 
-![Placeholder Image](https://via.placeholder.com/640x360?text=Please+Replace+This+Image+Link)
+![Webpage Example 1](assets/img/2025-03-12/7.webp)
 
 时间线、人物关系图谱应有尽有。
 
 甚至还有对话重现。。太细了。
 
-![Placeholder Image](https://via.placeholder.com/640x360?text=Please+Replace+This+Image+Link)
+![Webpage Example 2](assets/img/2025-03-12/8.webp)
 
 对比一下，这不比看纯文字文档有趣多了。。。
 
@@ -189,7 +189,7 @@ Prompt 整体上基本复制就可以用，但是细节部分，你还是要改�
 
 （不是广告。。。纯是刚好手边有这个）
 
-![Placeholder Image](https://via.placeholder.com/640x360?text=Please+Replace+This+Image+Link)
+![Hair Dryer Manual](assets/img/2025-03-12/9.webp)
 
 真的，我就问你这种说明书谁看谁不脑壳疼。
 
@@ -199,7 +199,7 @@ https://qicpvw19ax.yourware.so/
 
 还能切换日间模式。
 
-![Placeholder Image](https://via.placeholder.com/640x360?text=Please+Replace+This+Image+Link)
+![Hair Dryer Webpage](assets/img/2025-03-12/10.webp)
 
 这不爽多了？
 
