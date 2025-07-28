@@ -12,4 +12,4 @@ tags: [测试]
 
 - [Git 常用命令]({% post_url 2024-07-10-Git-Common-Commands %})
 - [AI PDF 转网页]({% post_url 2025-03-12-AI-PDF-to-Webpage %})
-- [彩票选号助手]({{ site.baseurl }}/LotteryNumberGenerator.html)
+- [彩票选号助手]({{ site.baseurl }}/pages/LotteryNumberGenerator.html)
