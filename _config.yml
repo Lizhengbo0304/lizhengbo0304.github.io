@@ -170,8 +170,6 @@ collections:
   tabs:
     output: true
     sort_by: order
-  pages:
-    output: true
 
 defaults:
   - scope:
