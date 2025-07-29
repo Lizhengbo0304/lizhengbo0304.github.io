@@ -1,3 +1,7 @@
+---
+layout: page
+title: 彩票选号助手
+---
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -7,9 +11,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script>
-        // 配置 Tailwind 深色模式
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
@@ -48,32 +50,20 @@
         }
     </script>
 </head>
-<body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
+<body class="bg-[#1b1b1e] text-gray-100 dark:bg-[#1b1b1e] dark:text-gray-100">
     <div class="min-h-screen flex flex-col">
-        <!-- 顶栏 -->
-        <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm animate-fade-in">
-            <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-                <h1 class="text-2xl font-bold flex items-center">
-                    <i class="fas fa-ticket-alt mr-2 text-primary-600"></i>
-                    <span>彩票选号助手</span>
-                </h1>
-                <button id="themeToggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-                    <i class="fas fa-moon dark:hidden"></i>
-                    <i class="fas fa-sun hidden dark:block"></i>
-                </button>
-            </div>
-        </header>
+
 
         <!-- 主内容区 -->
         <main class="flex-grow container mx-auto px-4 py-6 md:py-10 animate-fade-in">
-            <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition-all hover:shadow-lg">
+            <div class="max-w-4xl mx-auto bg-gray-800 rounded-xl shadow-md overflow-hidden transition-all hover:shadow-lg">
                 <div class="p-6 md:p-8">
                     <!-- 选项卡 -->
-                    <div class="flex mb-6 border-b border-gray-200 dark:border-gray-700">
-                        <button id="tabDaletou" class="tab-button active py-2 px-4 font-medium text-primary-600 border-b-2 border-primary-600">
+                    <div class="flex mb-6 border-b border-gray-200">
+                        <button id="tabDaletou" class="tab-button active py-2 px-4 font-medium text-primary-400 border-b-2 border-primary-400">
                             大乐透
                         </button>
-                        <button id="tabShuangseqiu" class="tab-button py-2 px-4 font-medium text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-500">
+                        <button id="tabShuangseqiu" class="tab-button py-2 px-4 font-medium text-gray-300 hover:text-primary-400">
                             双色球
                         </button>
                     </div>
@@ -82,15 +72,15 @@
                     <div class="space-y-6">
                         <!-- 投注模式选择 -->
                         <div class="form-group">
-                            <label class="block text-sm font-medium mb-2">选择投注模式</label>
+                            <label class="block text-sm font-medium text-gray-200 mb-2">选择投注模式</label>
                             <div class="flex flex-wrap gap-2">
-                                <button id="modeSimple" class="mode-button active px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                                <button id="modeSimple" class="mode-button active px-4 py-2 bg-gray-700 rounded-md hover:bg-gray-600 transition-colors">
                                     普通投注
                                 </button>
-                                <button id="modeMultiple" class="mode-button px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                                <button id="modeMultiple" class="mode-button px-4 py-2 bg-gray-700 rounded-md hover:bg-gray-600 transition-colors">
                                     复式投注
                                 </button>
-                                <button id="modeDantuo" class="mode-button px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                                <button id="modeDantuo" class="mode-button px-4 py-2 bg-gray-700 rounded-md hover:bg-gray-600 transition-colors">
                                     胆拖投注
                                 </button>
                             </div>
@@ -98,40 +88,40 @@
 
                         <!-- 注数选择（普通投注专用） -->
                         <div id="simpleOptions" class="form-group">
-                            <label class="block text-sm font-medium mb-2">注数</label>
+                            <label class="block text-sm font-medium text-gray-200 mb-2">注数</label>
                             <div class="flex items-center">
-                                <input id="betCount" type="number" min="1" max="10" value="1" class="w-20 p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
-                                <span class="ml-2 text-sm text-gray-500 dark:text-gray-400">注</span>
+                                <input id="betCount" type="number" min="1" max="10" value="1" class="w-20 p-2 border border-gray-600 rounded-md bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                <span class="ml-2 text-sm text-gray-300">注</span>
                             </div>
                         </div>
 
                         <!-- 复式投注选项 -->
                         <div id="multipleOptions" class="form-group hidden space-y-4">
                             <div>
-                                <label id="frontLabel" class="block text-sm font-medium mb-2">前区号码数量 (5-7)</label>
-                                <input id="frontCount" type="number" min="5" max="7" value="6" class="w-20 p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                <label id="frontLabel" class="block text-sm font-medium text-gray-200 mb-2">前区号码数量 (5-7)</label>
+                                <input id="frontCount" type="number" min="5" max="7" value="6" class="w-20 p-2 border border-gray-600 rounded-md bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500">
                             </div>
                             <div>
-                                <label id="backLabel" class="block text-sm font-medium mb-2">后区号码数量 (2-3)</label>
-                                <input id="backCount" type="number" min="2" max="3" value="2" class="w-20 p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                <label id="backLabel" class="block text-sm font-medium text-gray-200 mb-2">后区号码数量 (2-3)</label>
+                                <input id="backCount" type="number" min="2" max="3" value="2" class="w-20 p-2 border border-gray-600 rounded-md bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500">
                             </div>
                         </div>
 
                         <!-- 胆拖投注选项 -->
                         <div id="dantuoOptions" class="form-group hidden space-y-4">
                             <div>
-                                <label id="danLabel" class="block text-sm font-medium mb-2">胆码数量 (1-4)</label>
-                                <input id="danCount" type="number" min="1" max="4" value="1" class="w-20 p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                <label id="danLabel" class="block text-sm font-medium text-gray-200 mb-2">胆码数量 (1-4)</label>
+                                <input id="danCount" type="number" min="1" max="4" value="1" class="w-20 p-2 border border-gray-600 rounded-md bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500">
                             </div>
                             <div>
-                                <label id="tuoLabel" class="block text-sm font-medium mb-2">拖码数量 (2-16)</label>
-                                <input id="tuoCount" type="number" min="2" max="16" value="6" class="w-20 p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                <label id="tuoLabel" class="block text-sm font-medium text-gray-200 mb-2">拖码数量 (2-16)</label>
+                                <input id="tuoCount" type="number" min="2" max="16" value="6" class="w-20 p-2 border border-gray-600 bg-gray-700 text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
                             </div>
                         </div>
 
                         <!-- 生成按钮 -->
                         <div class="mt-6">
-                            <button id="generateBtn" class="w-full sm:w-auto px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-md shadow-sm hover:shadow transition-all transform hover:scale-105 flex items-center justify-center">
+                            <button id="generateBtn" class="w-full sm:w-auto px-6 py-3 bg-primary-500 hover:bg-primary-600 text-white font-medium rounded-md shadow-sm hover:shadow transition-all transform hover:scale-105 flex items-center justify-center">
                                 <i class="fas fa-random mr-2"></i>生成号码
                             </button>
                         </div>
@@ -139,46 +129,19 @@
 
                     <!-- 号码展示区域 -->
                     <div id="resultsContainer" class="mt-8 hidden animate-fade-in">
-                        <h3 class="text-lg font-medium mb-4">生成结果</h3>
+                        <h3 class="text-lg font-medium text-gray-200 mb-4">生成结果</h3>
                         <div id="resultsContent" class="space-y-4"></div>
                     </div>
                 </div>
             </div>
         </main>
 
-        <!-- 页脚 -->
-        <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-6 animate-fade-in">
-            <div class="container mx-auto px-4">
-                <div class="mb-4 md:mb-0 flex justify-center items-center">
-                    <span class="text-sm text-gray-600 dark:text-gray-400">© 2025 彩票选号助手. 版权所有</span>
-                </div>
-                <div class="flex justify-center items-center space-x-4 md:ml-6">
-                    <span class="text-sm text-gray-600 dark:text-gray-400">作者: 李正博</span>
-                    <a href="https://github.com/Lizhengbo0304" target="_blank" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-500 transition-colors">
-                        <i class="fab fa-github text-xl"></i>
-                    </a>
-                </div>
-                <div class="mt-4 text-xs text-center text-gray-500 dark:text-gray-500">
-                    免责声明：本工具仅供娱乐，不代表官方投注建议，请理性购彩。
-                </div>
-            </div>
-        </footer>
+
     </div>
 
     <script>
-        // 页面加载时检查系统主题偏好并应用
         document.addEventListener('DOMContentLoaded', () => {
-            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                document.documentElement.classList.add('dark');
-            }
-            
-            // 初始化页面配置
             updateLotteryLimits();
-        });
-
-        // 主题切换功能
-        document.getElementById('themeToggle').addEventListener('click', () => {
-            document.documentElement.classList.toggle('dark');
         });
 
         // 选项卡切换
@@ -186,11 +149,11 @@
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
                 tabs.forEach(t => {
-                    t.classList.remove('active', 'text-primary-600', 'border-b-2', 'border-primary-600');
-                    t.classList.add('text-gray-500', 'dark:text-gray-400');
+                    t.classList.remove('active', 'text-primary-400', 'border-b-2', 'border-primary-400');
+                    t.classList.add('text-gray-300');
                 });
-                tab.classList.add('active', 'text-primary-600', 'border-b-2', 'border-primary-600');
-                tab.classList.remove('text-gray-500', 'dark:text-gray-400');
+                tab.classList.add('active', 'text-primary-400', 'border-b-2', 'border-primary-400');
+                tab.classList.remove('text-gray-300');
                 
                 // 更新表单限制
                 updateLotteryLimits();
@@ -208,9 +171,9 @@
         modes.forEach(mode => {
             mode.addEventListener('click', () => {
                 modes.forEach(m => {
-                    m.classList.remove('active', 'bg-primary-100', 'dark:bg-primary-900', 'text-primary-700', 'dark:text-primary-300');
+                    m.classList.remove('active', 'bg-primary-800', 'text-primary-300');
                 });
-                mode.classList.add('active', 'bg-primary-100', 'dark:bg-primary-900', 'text-primary-700', 'dark:text-primary-300');
+                mode.classList.add('active', 'bg-primary-800', 'text-primary-300');
                 
                 // 隐藏所有选项
                 simpleOptions.classList.add('hidden');
@@ -521,15 +484,15 @@
             if (mode === 'modeDantuo') modeText = '胆拖投注';
             
             const groupTag = document.querySelector('.mode-button.active').id === 'modeSimple' && parseInt(document.getElementById('betCount').value) > 1
-                ? `<span class="text-xs font-medium ml-2 px-2 py-0.5 bg-gray-100 dark:bg-gray-700 rounded">第 ${groupNumber} 注</span>`
+                ? `<span class="text-xs font-medium ml-2 px-2 py-0.5 bg-gray-700 rounded">第 ${groupNumber} 注</span>`
                 : '';
             
             const resultCard = document.createElement('div');
-            resultCard.className = 'p-4 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 animate-fade-in';
+            resultCard.className = 'p-4 bg-gray-800 rounded-lg border border-gray-700 animate-fade-in';
             resultCard.innerHTML = `
                 <div class="flex justify-between items-center mb-3">
-                    <h4 class="text-base font-medium">${lotteryType} · ${modeText}${groupTag}</h4>
-                    <span class="text-xs text-gray-500">${new Date().toLocaleString('zh-CN', {hour12: false})}</span>
+                    <h4 class="text-base font-medium text-gray-200">${lotteryType} · ${modeText}${groupTag}</h4>
+                    <span class="text-xs text-gray-400">${new Date().toLocaleString('zh-CN', {hour12: false})}</span>
                 </div>
                 ${resultHTML}
             `;
@@ -655,7 +618,7 @@
                 card.classList.add('result-card', 'relative');
                 
                 const copyBtn = document.createElement('button');
-                copyBtn.className = 'copy-btn absolute top-4 right-4 p-1.5 bg-gray-100 dark:bg-gray-800 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors';
+                copyBtn.className = 'copy-btn absolute top-4 right-4 p-1.5 bg-gray-800 rounded-md hover:bg-gray-700 transition-colors';
                 copyBtn.innerHTML = '<i class="far fa-copy"></i>';
                 copyBtn.title = '复制号码';
                 
@@ -689,7 +652,7 @@
             if (!resultsContainer.querySelector('#exportBtn')) {
                 const exportBtn = document.createElement('button');
                 exportBtn.id = 'exportBtn';
-                exportBtn.className = 'mt-4 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors flex items-center';
+                exportBtn.className = 'mt-4 px-4 py-2 bg-gray-700 text-gray-300 rounded-md hover:bg-gray-600 transition-colors flex items-center';
                 exportBtn.innerHTML = '<i class="fas fa-download mr-2"></i>导出结果';
                 
                 exportBtn.addEventListener('click', () => {
@@ -771,7 +734,7 @@
             
             // 创建分析结果卡片
             const analysisCard = document.createElement('div');
-            analysisCard.className = 'p-4 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 animate-fade-in mt-4';
+            analysisCard.className = 'p-4 bg-gray-900 rounded-lg border border-gray-700 animate-fade-in mt-4';
             
             // 收集数字出现频率
             const frontFrequency = {};
@@ -799,12 +762,12 @@
             // 创建分析结果HTML
             let analysisHTML = `
                 <div class="flex justify-between items-center mb-3">
-                    <h4 class="text-base font-medium">号码分析结果</h4>
-                    <span class="text-xs text-gray-500">${new Date().toLocaleString('zh-CN', {hour12: false})}</span>
+                    <h4 class="text-base font-medium text-gray-200">号码分析结果</h4>
+                    <span class="text-xs text-gray-400">${new Date().toLocaleString('zh-CN', {hour12: false})}</span>
                 </div>
                 <div class="space-y-3">
                     <div>
-                        <p class="text-sm font-medium mb-2">出现频率最高的${isTabDaletou ? '前区' : '红球'}号码：</p>
+                        <p class="text-sm font-medium mb-2 text-gray-300">出现频率最高的${isTabDaletou ? '前区' : '红球'}号码：</p>
                         <div class="flex flex-wrap gap-2">
             `;
             
@@ -812,7 +775,7 @@
                 analysisHTML += `
                     <div class="flex flex-col items-center">
                         <div class="ball-red w-10 h-10 flex items-center justify-center rounded-full bg-red-ball text-white font-medium text-sm">${num.toString().padStart(2, '0')}</div>
-                        <span class="text-xs mt-1">${frontFrequency[num]}次</span>
+                        <span class="text-xs mt-1 text-gray-300">${frontFrequency[num]}次</span>
                     </div>
                 `;
             });
@@ -821,7 +784,7 @@
                         </div>
                     </div>
                     <div>
-                        <p class="text-sm font-medium mb-2">出现频率最高的${isTabDaletou ? '后区' : '蓝球'}号码：</p>
+                        <p class="text-sm font-medium mb-2 text-gray-300">出现频率最高的${isTabDaletou ? '后区' : '蓝球'}号码：</p>
                         <div class="flex flex-wrap gap-2">
             `;
             
@@ -829,7 +792,7 @@
                 analysisHTML += `
                     <div class="flex flex-col items-center">
                         <div class="ball-blue w-10 h-10 flex items-center justify-center rounded-full bg-blue-ball text-white font-medium text-sm">${num.toString().padStart(2, '0')}</div>
-                        <span class="text-xs mt-1">${backFrequency[num]}次</span>
+                        <span class="text-xs mt-1 text-gray-300">${backFrequency[num]}次</span>
                     </div>
                 `;
             });
@@ -852,13 +815,13 @@
             if (resultCards.length >= 2 && !resultsContainer.querySelector('#analysisBtn')) {
                 const analysisBtn = document.createElement('button');
                 analysisBtn.id = 'analysisBtn';
-                analysisBtn.className = 'mt-4 mr-2 px-4 py-2 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 rounded-md hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors flex items-center';
+                analysisBtn.className = 'mt-4 mr-2 px-4 py-2 bg-primary-800 text-primary-300 rounded-md hover:bg-primary-700 transition-colors flex items-center';
                 analysisBtn.innerHTML = '<i class="fas fa-chart-bar mr-2"></i>分析号码';
                 
                 analysisBtn.addEventListener('click', () => {
                     analyzeNumbers();
                     analysisBtn.disabled = true;
-                    analysisBtn.className = 'mt-4 mr-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 rounded-md cursor-not-allowed flex items-center';
+                    analysisBtn.className = 'mt-4 mr-2 px-4 py-2 bg-gray-700 text-gray-500 rounded-md cursor-not-allowed flex items-center';
                     analysisBtn.innerHTML = '<i class="fas fa-chart-bar mr-2"></i>已分析';
                 });
                 
