@@ -1,0 +1,321 @@
+---
+layout: normal
+title: Markdown预览器
+permalink: /markdown-preview/
+---
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown预览器</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // 配置 Tailwind 深色模式
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
+    <div class="min-h-screen flex flex-col">
+        <!-- 顶栏 -->
+        <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm animate-fade-in">
+            <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+                <h1 class="text-2xl font-bold flex items-center">
+                    <i class="fab fa-markdown mr-2 text-primary-600"></i>
+                    <span>Markdown预览器</span>
+                </h1>
+                <div class="flex items-center space-x-4">
+                    <button id="clearBtn" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md transition-colors">
+                        <i class="fas fa-trash mr-2"></i>清空
+                    </button>
+                    <button id="themeToggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        <i class="fas fa-moon dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:block"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- 主内容区 -->
+        <main class="flex-grow container mx-auto px-4 py-6 animate-fade-in">
+            <div class="h-full bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+                <div class="flex h-full">
+                    <!-- 编辑器区域 -->
+                    <div class="w-1/2 border-r border-gray-200 dark:border-gray-700 flex flex-col">
+                        <div class="bg-gray-100 dark:bg-gray-700 px-4 py-2 border-b border-gray-200 dark:border-gray-600">
+                            <h3 class="font-medium text-gray-700 dark:text-gray-300">
+                                <i class="fas fa-edit mr-2"></i>编辑器
+                            </h3>
+                        </div>
+                        <textarea 
+                            id="markdownInput" 
+                            class="flex-1 p-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border-none outline-none resize-none font-mono text-sm leading-relaxed"
+                            placeholder="在这里输入Markdown内容...\n\n支持功能：\n- 标题、列表、链接\n- 代码块语法高亮\n- Mermaid图表\n\n示例Mermaid图表：\n```mermaid\ngraph TD\n    A[开始] --> B{判断}\n    B -->|是| C[执行]\n    B -->|否| D[结束]\n    C --> D\n```"
+                        ></textarea>
+                    </div>
+                    
+                    <!-- 预览区域 -->
+                    <div class="w-1/2 flex flex-col">
+                        <div class="bg-gray-100 dark:bg-gray-700 px-4 py-2 border-b border-gray-200 dark:border-gray-600">
+                            <h3 class="font-medium text-gray-700 dark:text-gray-300">
+                                <i class="fas fa-eye mr-2"></i>预览
+                            </h3>
+                        </div>
+                        <div id="markdownPreview" class="flex-1 p-4 overflow-auto prose prose-gray dark:prose-invert max-w-none">
+                            <p class="text-gray-500 dark:text-gray-400 italic">预览内容将在这里显示...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            // 检查系统主题偏好
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.classList.add('dark');
+            }
+            
+            // 初始化 Mermaid
+            mermaid.initialize({ 
+                startOnLoad: true,
+                theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default'
+            });
+            
+            // 配置 marked
+            marked.setOptions({
+                highlight: function(code, lang) {
+                    if (lang && hljs.getLanguage(lang)) {
+                        try {
+                            return hljs.highlight(code, { language: lang }).value;
+                        } catch (err) {}
+                    }
+                    return hljs.highlightAuto(code).value;
+                },
+                breaks: true,
+                gfm: true
+            });
+            
+            // 初始渲染
+            updatePreview();
+        });
+
+        // 主题切换功能
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            // 重新初始化 Mermaid 以适应主题变化
+            mermaid.initialize({ 
+                startOnLoad: true,
+                theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default'
+            });
+            updatePreview();
+        });
+
+        // 清空按钮
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            if (confirm('确定要清空所有内容吗？')) {
+                document.getElementById('markdownInput').value = '';
+                updatePreview();
+            }
+        });
+
+        // 监听输入变化
+        document.getElementById('markdownInput').addEventListener('input', updatePreview);
+
+        // 更新预览
+        function updatePreview() {
+            const input = document.getElementById('markdownInput').value;
+            const preview = document.getElementById('markdownPreview');
+            
+            if (!input.trim()) {
+                preview.innerHTML = '<p class="text-gray-500 dark:text-gray-400 italic">预览内容将在这里显示...</p>';
+                return;
+            }
+            
+            try {
+                // 处理 Mermaid 图表
+                let processedInput = input;
+                const mermaidBlocks = [];
+                let mermaidIndex = 0;
+                
+                // 提取 Mermaid 代码块
+                processedInput = processedInput.replace(/```mermaid\n([\s\S]*?)\n```/g, (match, code) => {
+                    const id = `mermaid-${mermaidIndex++}`;
+                    mermaidBlocks.push({ id, code: code.trim() });
+                    return `<div class="mermaid-placeholder" data-id="${id}"></div>`;
+                });
+                
+                // 转换 Markdown
+                let html = marked.parse(processedInput);
+                
+                // 替换 Mermaid 占位符
+                mermaidBlocks.forEach(({ id, code }) => {
+                    html = html.replace(
+                        `<div class="mermaid-placeholder" data-id="${id}"></div>`,
+                        `<div class="mermaid" id="${id}">${code}</div>`
+                    );
+                });
+                
+                preview.innerHTML = html;
+                
+                // 重新渲染 Mermaid 图表
+                if (mermaidBlocks.length > 0) {
+                    mermaid.init(undefined, '.mermaid');
+                }
+                
+                // 重新高亮代码
+                preview.querySelectorAll('pre code').forEach((block) => {
+                    hljs.highlightElement(block);
+                });
+                
+            } catch (error) {
+                preview.innerHTML = `<div class="bg-red-100 dark:bg-red-900 border border-red-400 text-red-700 dark:text-red-300 px-4 py-3 rounded">渲染错误: ${error.message}</div>`;
+            }
+        }
+
+        // 键盘快捷键
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey || e.metaKey) {
+                switch (e.key) {
+                    case 'k':
+                        e.preventDefault();
+                        document.getElementById('clearBtn').click();
+                        break;
+                }
+            }
+        });
+    </script>
+
+    <style>
+        /* 自定义样式 */
+        .prose {
+            max-width: none;
+        }
+        
+        .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+            color: inherit;
+        }
+        
+        .prose code {
+            background-color: rgba(156, 163, 175, 0.1);
+            padding: 0.125rem 0.25rem;
+            border-radius: 0.25rem;
+            font-size: 0.875em;
+        }
+        
+        .prose pre {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+        }
+        
+        .dark .prose pre {
+            background-color: #2d3748;
+            border-color: #4a5568;
+        }
+        
+        .prose blockquote {
+            border-left: 4px solid #0ea5e9;
+            background-color: rgba(14, 165, 233, 0.05);
+            margin: 1rem 0;
+            padding: 0.5rem 1rem;
+        }
+        
+        .prose table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        
+        .prose th, .prose td {
+            border: 1px solid #e5e7eb;
+            padding: 0.5rem;
+            text-align: left;
+        }
+        
+        .dark .prose th, .dark .prose td {
+            border-color: #4b5563;
+        }
+        
+        .prose th {
+            background-color: #f9fafb;
+            font-weight: 600;
+        }
+        
+        .dark .prose th {
+            background-color: #374151;
+        }
+        
+        /* Mermaid 图表样式 */
+        .mermaid {
+            text-align: center;
+            margin: 1rem 0;
+        }
+        
+        /* 滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        .dark ::-webkit-scrollbar-track {
+            background: #2d3748;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+        
+        .dark ::-webkit-scrollbar-thumb {
+            background: #4a5568;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+        
+        .dark ::-webkit-scrollbar-thumb:hover {
+            background: #5a6578;
+        }
+    </style>
+</body>
+</html>
