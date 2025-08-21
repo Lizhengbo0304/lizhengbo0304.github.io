@@ -1,6 +1,7 @@
 ---
+layout: post
 title: Markdown预览器工具
-date: 2025-01-15 10:00:00 +0800
+date: 2025-08-21 18:00:00 +0800
 categories: [工具, Web应用]
 tags: [markdown, 预览器, mermaid, 在线工具]
 ---
