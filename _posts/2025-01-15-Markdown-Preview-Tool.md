@@ -1,71 +1,71 @@
 ---
 layout: post
-title: MarkdownԤ��������
+title: Markdown预览器工具
 date: 2025-08-21 18:00:00 +0800
-categories: [����, WebӦ��]
-tags: [markdown, Ԥ����, mermaid, ���߹���]
+categories: [工具, Web应用]
+tags: [markdown, 预览器, mermaid, 在线工具]
 ---
 
-## MarkdownԤ����
+## Markdown预览器
 
-�Ҵ�����һ������ǿ�������MarkdownԤ������֧��ʵʱ�༭��Ԥ�����ر��ʺϱ�д�͵���Markdown�ĵ���
+我创建了一个功能强大的在线Markdown预览器，支持实时编辑和预览，特别适合编写和调试Markdown文档。
 
-### ��Ҫ����
+### 主要功能
 
-- **ʵʱԤ��**: ���༭���Ҳ�ʵʱ��ʾ��Ⱦ���
-- **�﷨����**: ֧�ִ������﷨������ʾ
-- **Mermaidͼ��**: ����֧��Mermaid����ͼ��ʱ��ͼ��
-- **��Ӧʽ���**: ���������Ļ�ߴ�
-- **��ɫģʽ**: ֧�����������л�
-- **��ݲ���**: һ����ա����̿�ݼ�֧��
+- **实时预览**: 左侧编辑，右侧实时显示渲染结果
+- **语法高亮**: 支持代码块的语法高亮显示
+- **Mermaid图表**: 完整支持Mermaid流程图、时序图等
+- **响应式设计**: 适配各种屏幕尺寸
+- **深色模式**: 支持明暗主题切换
+- **快捷操作**: 一键清空、键盘快捷键支持
 
-### ֧�ֵ�Markdown�﷨
+### 支持的Markdown语法
 
-#### �����﷨
-- ���� (H1-H6)
-- **����** �� *б��*
-- �б������������
-- ���Ӻ�ͼƬ
-- ���ÿ�
-- �����
-- ����
+#### 基础语法
+- 标题 (H1-H6)
+- **粗体** 和 *斜体*
+- 列表（有序和无序）
+- 链接和图片
+- 引用块
+- 代码块
+- 表格
 
-#### ��չ����
-- GitHub����Markdown (GFM)
-- �����﷨����
-- Mermaidͼ����Ⱦ
+#### 扩展功能
+- GitHub风格的Markdown (GFM)
+- 代码语法高亮
+- Mermaid图表渲染
 
-### Mermaidͼ��ʾ��
+### Mermaid图表示例
 
-Ԥ����֧�ָ������͵�Mermaidͼ����
+预览器支持各种类型的Mermaid图表：
 
 ```markdown
 ```mermaid
 graph TD
-    A[��ʼ] --> B{�ж�����}
-    B -->|��| C[ִ�в���]
-    B -->|��| D[����]
-    C --> E[����]
+    A[开始] --> B{判断条件}
+    B -->|是| C[执行操作]
+    B -->|否| D[跳过]
+    C --> E[结束]
     D --> E
 ```
 ```
 
-### ʹ�÷���
+### 使用方法
 
-1. �����༭��������Markdown����
-2. �Ҳ��ʵʱ��ʾ��Ⱦ���
-3. ֧��Mermaidͼ����ʹ�� \`\`\`mermaid �����
-4. ��������л���ť�����л�����ģʽ
-5. ʹ����հ�ť���Կ��������������
+1. 在左侧编辑器中输入Markdown内容
+2. 右侧会实时显示渲染结果
+3. 支持Mermaid图表，使用 \`\`\`mermaid 代码块
+4. 点击主题切换按钮可以切换明暗模式
+5. 使用清空按钮可以快速清除所有内容
 
-### ���ʵ�ַ
+### 访问地址
 
-? [�������ʹ��MarkdownԤ����](/markdown-preview/)
+? [点击这里使用Markdown预览器](/markdown-preview/)
 
-��������ر��ʺϣ�
-- ��д�����ĵ�
-- ��������ͼ�ͼܹ�ͼ
-- ѧϰMarkdown�﷨
-- ����Ԥ��MarkdownЧ��
+这个工具特别适合：
+- 编写技术文档
+- 制作流程图和架构图
+- 学习Markdown语法
+- 快速预览Markdown效果
 
-ϣ����������ܹ�������Ҹ��õر�д��Ԥ��Markdown�ĵ���
+希望这个工具能够帮助大家更好地编写和预览Markdown文档！
