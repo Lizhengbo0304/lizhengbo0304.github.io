@@ -132,6 +132,10 @@ permalink: /markdown-preview/
                         
                         <!-- 桌面端按钮组 -->
                         <div class="hidden lg:flex items-center space-x-3">
+                            <button id="openFileBtn" class="group px-4 py-2 bg-accent-50 hover:bg-accent-100 dark:bg-accent-900/50 dark:hover:bg-accent-800/50 text-accent-600 dark:text-accent-400 rounded-xl transition-all duration-200 transform hover:scale-105 hover:shadow-soft">
+                                <i class="fas fa-folder-open mr-2 group-hover:scale-110 transition-transform duration-200"></i>
+                                <span class="text-sm font-medium">打开</span>
+                            </button>
                             <button id="fullscreenBtn" class="group px-4 py-2 bg-primary-100 hover:bg-primary-200 dark:bg-primary-700 dark:hover:bg-primary-600 text-primary-700 dark:text-primary-300 rounded-xl transition-all duration-200 transform hover:scale-105 hover:shadow-soft">
                                 <i class="fas fa-expand mr-2 group-hover:scale-110 transition-transform duration-200"></i>
                                 <span class="text-sm font-medium">全屏</span>
@@ -152,6 +156,10 @@ permalink: /markdown-preview/
                 <!-- 移动端菜单 -->
                 <div id="mobileMenu" class="lg:hidden mt-4 pb-4 border-t border-primary-200/50 dark:border-primary-700/50 hidden animate-slide-up">
                     <div class="flex flex-col space-y-2 pt-4">
+                        <button id="openFileBtnMobile" class="flex items-center px-4 py-3 bg-accent-50 hover:bg-accent-100 dark:bg-accent-900/50 dark:hover:bg-accent-800/50 text-accent-600 dark:text-accent-400 rounded-xl transition-colors duration-200">
+                            <i class="fas fa-folder-open mr-3"></i>
+                            <span class="font-medium">打开文件</span>
+                        </button>
                         <button id="fullscreenBtnMobile" class="flex items-center px-4 py-3 bg-primary-100 hover:bg-primary-200 dark:bg-primary-700 dark:hover:bg-primary-600 text-primary-700 dark:text-primary-300 rounded-xl transition-colors duration-200">
                             <i class="fas fa-expand mr-3"></i>
                             <span class="font-medium">全屏模式</span>
@@ -285,6 +293,9 @@ permalink: /markdown-preview/
         </main>
     </div>
 
+    <!-- 隐藏的文件输入元素 -->
+    <input type="file" id="fileInput" accept=".md,.markdown,.txt" style="display: none;">
+
     <script>
         // 全局变量
         let isFullscreen = false;
@@ -302,6 +313,9 @@ permalink: /markdown-preview/
         const clearBtnMobile = document.getElementById('clearBtnMobile');
         const fullscreenBtn = document.getElementById('fullscreenBtn');
         const fullscreenBtnMobile = document.getElementById('fullscreenBtnMobile');
+        const openFileBtn = document.getElementById('openFileBtn');
+        const openFileBtnMobile = document.getElementById('openFileBtnMobile');
+        const fileInput = document.getElementById('fileInput');
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
         const editTab = document.getElementById('editTab');
@@ -329,6 +343,20 @@ permalink: /markdown-preview/
             html.classList.toggle('dark');
             const isDark = html.classList.contains('dark');
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            
+            // 重新初始化 Mermaid 以应用新主题
+            if (typeof mermaid !== 'undefined') {
+                initializeMermaid();
+                
+                // 重新渲染所有 Mermaid 图表
+                setTimeout(() => {
+                    const mermaidElements = document.querySelectorAll('.mermaid');
+                    mermaidElements.forEach(element => {
+                        element.removeAttribute('data-processed');
+                    });
+                    mermaid.init(undefined, mermaidElements);
+                }, 100);
+            }
             
             // 添加主题切换动画
             document.body.style.transition = 'all 0.3s ease';
@@ -410,6 +438,140 @@ permalink: /markdown-preview/
         
         if (clearBtn) clearBtn.addEventListener('click', clearContent);
         if (clearBtnMobile) clearBtnMobile.addEventListener('click', clearContent);
+        
+        // 打开文件功能
+        function openFile() {
+            fileInput.click();
+        }
+        
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            // 检查文件类型
+            const validTypes = ['.md', '.markdown', '.txt'];
+            const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+            
+            if (!validTypes.includes(fileExtension)) {
+                showToast('请选择 Markdown 文件 (.md, .markdown) 或文本文件 (.txt)', 'error');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const content = e.target.result;
+                
+                // 设置内容到编辑器
+                if (markdownInput) markdownInput.value = content;
+                if (markdownInputMobile) markdownInputMobile.value = content;
+                
+                // 更新预览和统计
+                updatePreview();
+                updateMobilePreview();
+                updateStats();
+                
+                // 保存到本地存储
+                localStorage.setItem('markdownContent', content);
+                
+                // 显示成功提示
+                showToast(`文件 "${file.name}" 已成功打开`, 'success');
+                
+                // 如果在移动端且当前在预览模式，切换到编辑模式
+                if (isMobile && currentMobileView === 'preview') {
+                    switchMobileView('edit');
+                }
+            };
+            
+            reader.onerror = function() {
+                showToast('文件读取失败，请重试', 'error');
+            };
+            
+            reader.readAsText(file, 'UTF-8');
+            
+            // 清空文件输入，允许重复选择同一文件
+            event.target.value = '';
+        }
+        
+        if (openFileBtn) openFileBtn.addEventListener('click', openFile);
+        if (openFileBtnMobile) openFileBtnMobile.addEventListener('click', openFile);
+        if (fileInput) fileInput.addEventListener('change', handleFileSelect);
+        
+        // 拖拽文件功能
+        function setupDragAndDrop() {
+            const dropZones = [document.body, markdownInput, markdownInputMobile].filter(Boolean);
+            
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    zone.classList.add('drag-over');
+                });
+                
+                zone.addEventListener('dragleave', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    // 只有当拖拽离开整个区域时才移除样式
+                    if (!zone.contains(e.relatedTarget)) {
+                        zone.classList.remove('drag-over');
+                    }
+                });
+                
+                zone.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    zone.classList.remove('drag-over');
+                    
+                    const files = e.dataTransfer.files;
+                    if (files.length > 0) {
+                        const file = files[0];
+                        
+                        // 检查文件类型
+                        const validTypes = ['.md', '.markdown', '.txt'];
+                        const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+                        
+                        if (!validTypes.includes(fileExtension)) {
+                            showToast('请拖拽 Markdown 文件 (.md, .markdown) 或文本文件 (.txt)', 'error');
+                            return;
+                        }
+                        
+                        // 使用相同的文件处理逻辑
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const content = e.target.result;
+                            
+                            // 设置内容到编辑器
+                            if (markdownInput) markdownInput.value = content;
+                            if (markdownInputMobile) markdownInputMobile.value = content;
+                            
+                            // 更新预览和统计
+                            updatePreview();
+                            updateMobilePreview();
+                            updateStats();
+                            
+                            // 保存到本地存储
+                            localStorage.setItem('markdownContent', content);
+                            
+                            // 显示成功提示
+                            showToast(`文件 "${file.name}" 已成功打开`, 'success');
+                            
+                            // 如果在移动端且当前在预览模式，切换到编辑模式
+                            if (isMobile && currentMobileView === 'preview') {
+                                switchMobileView('edit');
+                            }
+                        };
+                        
+                        reader.onerror = function() {
+                            showToast('文件读取失败，请重试', 'error');
+                        };
+                        
+                        reader.readAsText(file, 'UTF-8');
+                    }
+                });
+            });
+        }
+        
+        // 初始化拖拽功能
+        setupDragAndDrop();
         
         // 字符和行数统计
         function updateStats() {
@@ -677,11 +839,46 @@ permalink: /markdown-preview/
         function init() {
             initTheme();
             
+            // Mermaid 主题配置函数
+            function initializeMermaid() {
+                const isDark = document.documentElement.classList.contains('dark');
+                mermaid.initialize({ 
+                    startOnLoad: true,
+                    theme: isDark ? 'dark' : 'default',
+                    themeVariables: {
+                        // 浅色模式配置
+                        primaryColor: isDark ? '#374151' : '#f3f4f6',
+                        primaryTextColor: isDark ? '#f9fafb' : '#111827',
+                        primaryBorderColor: isDark ? '#6b7280' : '#d1d5db',
+                        lineColor: isDark ? '#9ca3af' : '#6b7280',
+                        
+                        // subgraph 配置 - 确保足够的对比度
+                        clusterBkg: isDark ? '#1f2937' : '#f9fafb',
+                        clusterBorder: isDark ? '#4b5563' : '#d1d5db',
+                        
+                        // 节点配置
+                        mainBkg: isDark ? '#374151' : '#ffffff',
+                        secondBkg: isDark ? '#4b5563' : '#f3f4f6',
+                        tertiaryColor: isDark ? '#1f2937' : '#f9fafb',
+                        
+                        // 文字颜色 - 确保在所有背景上都有足够对比度
+                        textColor: isDark ? '#f9fafb' : '#111827',
+                        nodeTextColor: isDark ? '#f9fafb' : '#111827',
+                        
+                        // 背景
+                        background: isDark ? '#111827' : '#ffffff',
+                        
+                        // 边框
+                        edgeLabelBackground: isDark ? '#374151' : '#ffffff',
+                        
+                        // 确保足够的对比度
+                        contrast: isDark ? '#ffffff' : '#000000'
+                    }
+                });
+            }
+            
             // 初始化 Mermaid
-            mermaid.initialize({ 
-                startOnLoad: true,
-                theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default'
-            });
+            initializeMermaid();
             
             // 配置 marked
             marked.setOptions({
@@ -955,6 +1152,37 @@ permalink: /markdown-preview/
         }
         .dark .fullscreen-mode {
             background: rgb(17, 24, 39);
+        }
+        
+        /* 拖拽文件样式 */
+        .drag-over {
+            position: relative;
+        }
+        .drag-over::before {
+            content: '拖拽 Markdown 文件到此处打开';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(59, 130, 246, 0.1);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: rgb(59, 130, 246);
+            z-index: 10000;
+            border: 3px dashed rgb(59, 130, 246);
+            border-radius: 1rem;
+            margin: 1rem;
+            transition: all 0.3s ease;
+        }
+        .dark .drag-over::before {
+            background: rgba(59, 130, 246, 0.2);
+            color: rgb(147, 197, 253);
+            border-color: rgb(147, 197, 253);
         }
     </style>
 </body>
