@@ -14,6 +14,7 @@ permalink: /markdown-preview/
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script>
         // 配置 Tailwind - Linear App 风格配色
@@ -449,11 +450,39 @@ permalink: /markdown-preview/
                 mainContainer.style.borderRadius = '0';
                 if (fullscreenBtn) fullscreenBtn.innerHTML = '<i class="fas fa-compress mr-2 group-hover:scale-110 transition-transform duration-200"></i><span class="text-sm font-medium">退出全屏</span>';
                 if (fullscreenBtnMobile) fullscreenBtnMobile.innerHTML = '<i class="fas fa-compress mr-3"></i><span class="font-medium">退出全屏</span>';
+                
+                // 创建全屏退出按钮
+                createFullscreenExitButton();
             } else {
                 mainContainer.classList.remove('fullscreen-mode');
                 mainContainer.style.borderRadius = '';
                 if (fullscreenBtn) fullscreenBtn.innerHTML = '<i class="fas fa-expand mr-2 group-hover:scale-110 transition-transform duration-200"></i><span class="text-sm font-medium">全屏</span>';
                 if (fullscreenBtnMobile) fullscreenBtnMobile.innerHTML = '<i class="fas fa-expand mr-3"></i><span class="font-medium">全屏模式</span>';
+                
+                // 移除全屏退出按钮
+                removeFullscreenExitButton();
+            }
+        }
+        
+        // 创建全屏退出按钮
+        function createFullscreenExitButton() {
+            // 如果已存在则不重复创建
+            if (document.getElementById('fullscreenExitBtn')) return;
+            
+            const exitBtn = document.createElement('button');
+            exitBtn.id = 'fullscreenExitBtn';
+            exitBtn.className = 'fixed top-4 left-4 z-[10000] px-3 py-2 bg-red-500/90 hover:bg-red-600/90 backdrop-blur-sm text-white rounded-lg shadow-lg transition-all duration-200 flex items-center gap-2 text-sm';
+            exitBtn.innerHTML = '<i class="fas fa-times"></i><span class="hidden sm:inline">退出全屏</span>';
+            exitBtn.onclick = toggleFullscreen;
+            
+            document.body.appendChild(exitBtn);
+        }
+        
+        // 移除全屏退出按钮
+        function removeFullscreenExitButton() {
+            const exitBtn = document.getElementById('fullscreenExitBtn');
+            if (exitBtn) {
+                exitBtn.remove();
             }
         }
         
@@ -1205,34 +1234,103 @@ permalink: /markdown-preview/
                 mermaid.initialize({ 
                     startOnLoad: true,
                     theme: isDark ? 'dark' : 'default',
-                    themeVariables: {
-                        // 浅色模式配置
-                        primaryColor: isDark ? '#374151' : '#f3f4f6',
-                        primaryTextColor: isDark ? '#f9fafb' : '#111827',
-                        primaryBorderColor: isDark ? '#6b7280' : '#d1d5db',
-                        lineColor: isDark ? '#9ca3af' : '#6b7280',
+                    themeVariables: isDark ? {
+                        // 深色模式 - 使用高对比度配色
+                        primaryColor: '#1e293b',
+                        primaryTextColor: '#f1f5f9',
+                        primaryBorderColor: '#64748b',
+                        lineColor: '#cbd5e1',
                         
-                        // subgraph 配置 - 确保足够的对比度
-                        clusterBkg: isDark ? '#1f2937' : '#f9fafb',
-                        clusterBorder: isDark ? '#4b5563' : '#d1d5db',
+                        // 节点背景 - 使用更深的背景色以提高对比度
+                        mainBkg: '#334155',
+                        secondBkg: '#475569',
+                        tertiaryColor: '#1e293b',
                         
-                        // 节点配置
-                        mainBkg: isDark ? '#374151' : '#ffffff',
-                        secondBkg: isDark ? '#4b5563' : '#f3f4f6',
-                        tertiaryColor: isDark ? '#1f2937' : '#f9fafb',
-                        
-                        // 文字颜色 - 确保在所有背景上都有足够对比度
-                        textColor: isDark ? '#f9fafb' : '#111827',
-                        nodeTextColor: isDark ? '#f9fafb' : '#111827',
+                        // 文字颜色 - 使用更亮的文字
+                        textColor: '#f1f5f9',
+                        nodeTextColor: '#f1f5f9',
                         
                         // 背景
-                        background: isDark ? '#111827' : '#ffffff',
+                        background: '#0f172a',
                         
-                        // 边框
-                        edgeLabelBackground: isDark ? '#374151' : '#ffffff',
+                        // 子图配置
+                        clusterBkg: '#1e293b',
+                        clusterBorder: '#64748b',
                         
-                        // 确保足够的对比度
-                        contrast: isDark ? '#ffffff' : '#000000'
+                        // 边框和标签
+                        edgeLabelBackground: '#334155',
+                        
+                        // 箭头和连接线配置
+                        arrowheadColor: '#e2e8f0',
+                        edgeColor: '#cbd5e1',
+                        
+                        // 特殊节点颜色 - 使用更明显的对比色
+                        fillType0: '#334155',
+                        fillType1: '#475569',
+                        fillType2: '#64748b',
+                        fillType3: '#1e293b',
+                        fillType4: '#0f172a',
+                        fillType5: '#334155',
+                        fillType6: '#475569',
+                        fillType7: '#64748b',
+                        
+                        // 流程图特定配置
+                        cScale0: '#334155',
+                        cScale1: '#475569',
+                        cScale2: '#64748b',
+                        
+                        // 决策节点颜色
+                        altBackground: '#475569',
+                        
+                        // 标签文字背景
+                        labelBackground: '#334155',
+                        labelTextColor: '#f1f5f9'
+                    } : {
+                        // 浅色模式 - 优化配色
+                        primaryColor: '#e5e7eb',
+                        primaryTextColor: '#111827',
+                        primaryBorderColor: '#9ca3af',
+                        lineColor: '#4b5563',
+                        
+                        mainBkg: '#ffffff',
+                        secondBkg: '#f9fafb',
+                        tertiaryColor: '#f3f4f6',
+                        
+                        textColor: '#111827',
+                        nodeTextColor: '#111827',
+                        
+                        background: '#ffffff',
+                        
+                        clusterBkg: '#f9fafb',
+                        clusterBorder: '#9ca3af',
+                        
+                        edgeLabelBackground: '#ffffff',
+                        
+                        // 箭头和连接线配置
+                        arrowheadColor: '#374151',
+                        edgeColor: '#4b5563',
+                        
+                        // 特殊节点颜色
+                        fillType0: '#f3f4f6',
+                        fillType1: '#e5e7eb',
+                        fillType2: '#d1d5db',
+                        fillType3: '#f9fafb',
+                        fillType4: '#ffffff',
+                        fillType5: '#f3f4f6',
+                        fillType6: '#e5e7eb',
+                        fillType7: '#d1d5db',
+                        
+                        // 流程图特定配置
+                        cScale0: '#f3f4f6',
+                        cScale1: '#e5e7eb',
+                        cScale2: '#d1d5db',
+                        
+                        // 决策节点颜色
+                        altBackground: '#e5e7eb',
+                        
+                        // 标签文字背景
+                        labelBackground: '#ffffff',
+                        labelTextColor: '#111827'
                     }
                 });
             }
@@ -1413,12 +1511,24 @@ permalink: /markdown-preview/
         /* 深色模式样式 */
         .dark .prose code {
             color: rgb(248, 113, 113);
-            background-color: rgba(248, 113, 113, 0.1);
-            border-color: rgba(248, 113, 113, 0.2);
+            background-color: rgba(248, 113, 113, 0.12);
+            border: 1px solid rgba(248, 113, 113, 0.25);
+            border-radius: 0.375rem;
+            padding: 0.125rem 0.375rem;
+            font-weight: 500;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
         .dark .prose pre {
-            background: linear-gradient(135deg, rgba(75, 85, 99, 0.1) 0%, rgba(75, 85, 99, 0.2) 100%);
-            border-color: rgba(75, 85, 99, 0.3);
+            background: linear-gradient(135deg, rgba(75, 85, 99, 0.15) 0%, rgba(75, 85, 99, 0.25) 100%);
+            border: 1px solid rgba(75, 85, 99, 0.35);
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+        .dark .prose pre code {
+            background: transparent;
+            border: none;
+            padding: 0;
+            box-shadow: none;
         }
         .dark .prose blockquote {
             border-left-color: rgb(96, 165, 250);
@@ -1464,6 +1574,85 @@ permalink: /markdown-preview/
             padding: 0 !important;
         }
         
+        /* 深色模式下的语法高亮优化 */
+        .dark .hljs {
+            color: #e6edf3 !important;
+        }
+        .dark .hljs-keyword {
+            color: #ff7b72 !important;
+        }
+        .dark .hljs-string {
+            color: #a5d6ff !important;
+        }
+        .dark .hljs-comment {
+            color: #8b949e !important;
+        }
+        .dark .hljs-number {
+            color: #79c0ff !important;
+        }
+        .dark .hljs-function {
+            color: #d2a8ff !important;
+        }
+        .dark .hljs-variable {
+            color: #ffa657 !important;
+        }
+        .dark .hljs-type {
+            color: #7ee787 !important;
+        }
+        .dark .hljs-operator {
+            color: #ff7b72 !important;
+        }
+        .dark .hljs-built_in {
+            color: #79c0ff !important;
+        }
+        .dark .hljs-attr {
+            color: #79c0ff !important;
+        }
+        .dark .hljs-tag {
+            color: #7ee787 !important;
+        }
+        .dark .hljs-name {
+            color: #7ee787 !important;
+        }
+        .dark .hljs-selector-tag {
+            color: #7ee787 !important;
+        }
+        .dark .hljs-selector-class {
+            color: #ffa657 !important;
+        }
+        .dark .hljs-selector-id {
+            color: #79c0ff !important;
+        }
+        
+        /* 按钮增强样式 */
+        .btn, button {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn:hover, button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        .btn:active, button:active {
+            transform: translateY(0);
+            transition: all 0.1s ease;
+        }
+        .btn::before, button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+            pointer-events: none;
+        }
+        .btn:hover::before, button:hover::before {
+            left: 100%;
+        }
+        
         /* 加载动画 */
         @keyframes shimmer {
             0% { transform: translateX(-100%); }
@@ -1482,6 +1671,15 @@ permalink: /markdown-preview/
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
             animation: shimmer 1.5s infinite;
+        }
+        
+        /* 脉冲动画 */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
         
         /* 响应式字体大小 */
