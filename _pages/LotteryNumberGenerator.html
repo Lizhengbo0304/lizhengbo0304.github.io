@@ -12,13 +12,26 @@ permalink: /lottery-generator/
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script>
-        // 配置 Tailwind 深色模式
+        // 配置 Tailwind - Linear App 风格配色
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
+                        // Linear App 风格配色
                         primary: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        },
+                        accent: {
                             50: '#f0f9ff',
                             100: '#e0f2fe',
                             200: '#bae6fd',
@@ -30,56 +43,173 @@ permalink: /lottery-generator/
                             800: '#075985',
                             900: '#0c4a6e',
                         },
-                        red: {
-                            ball: '#f54545',
-                            ballHover: '#e03535',
+                        success: {
+                            50: '#f0fdf4',
+                            500: '#22c55e',
+                            600: '#16a34a',
                         },
-                        blue: {
-                            ball: '#3b7fff',
-                            ballHover: '#2b6fee',
+                        warning: {
+                            50: '#fffbeb',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        },
+                        danger: {
+                            50: '#fef2f2',
+                            500: '#ef4444',
+                            600: '#dc2626',
+                        },
+                        lottery: {
+                            red: '#ef4444',
+                            redHover: '#dc2626',
+                            blue: '#3b82f6',
+                            blueHover: '#2563eb',
                         }
                     },
                     animation: {
-                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'fade-in': 'fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+                        'slide-up': 'slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                        'scale-in': 'scaleIn 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                        'bounce-subtle': 'bounceSubtle 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+                        'ball-bounce': 'ballBounce 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
                     },
                     keyframes: {
                         fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        scaleIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.95)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' },
+                        },
+                        bounceSubtle: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-2px)' },
+                        },
+                        ballBounce: {
+                            '0%': { transform: 'scale(0) rotate(0deg)', opacity: '0' },
+                            '50%': { transform: 'scale(1.1) rotate(180deg)', opacity: '1' },
+                            '100%': { transform: 'scale(1) rotate(360deg)', opacity: '1' },
                         }
+                    },
+                    backdropBlur: {
+                        xs: '2px',
+                    },
+                    boxShadow: {
+                        'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)',
+                        'soft-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                        'glow': '0 0 20px rgba(59, 130, 246, 0.15)',
+                        'lottery-red': '0 0 15px rgba(239, 68, 68, 0.3)',
+                        'lottery-blue': '0 0 15px rgba(59, 130, 246, 0.3)',
                     }
                 }
             }
         }
     </script>
 </head>
-<body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
-    <div class="min-h-screen flex flex-col">
-        <!-- 顶栏 -->
-        <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm animate-fade-in">
-            <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-                <h1 class="text-2xl font-bold flex items-center">
-                    <i class="fas fa-ticket-alt mr-2 text-primary-600"></i>
-                    <span>彩票选号助手</span>
-                </h1>
-                <button id="themeToggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-                    <i class="fas fa-moon dark:hidden"></i>
-                    <i class="fas fa-sun hidden dark:block"></i>
-                </button>
+<body class="bg-gradient-to-br from-primary-50 to-white dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 text-primary-900 dark:text-slate-50 transition-all duration-500 ease-out">
+    <!-- 背景装饰 -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <!-- 光模式装饰 -->
+        <div class="dark:hidden">
+            <div class="absolute -top-40 -right-40 w-80 h-80 bg-accent-200/20 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-accent-300/20 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+        </div>
+        <!-- 深色模式装饰 -->
+        <div class="hidden dark:block">
+            <div class="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-purple-500/10 to-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-tr from-cyan-500/10 to-emerald-500/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-gradient-to-r from-indigo-500/5 to-pink-500/5 rounded-full blur-3xl animate-pulse" style="animation-delay: 4s;"></div>
+            <!-- 星空效果 -->
+            <div class="absolute inset-0">
+                <div class="absolute top-1/4 left-1/4 w-1 h-1 bg-blue-400 rounded-full animate-pulse"></div>
+                <div class="absolute top-1/3 right-1/3 w-1 h-1 bg-purple-400 rounded-full animate-pulse" style="animation-delay: 1s;"></div>
+                <div class="absolute bottom-1/4 left-1/3 w-1 h-1 bg-cyan-400 rounded-full animate-pulse" style="animation-delay: 2s;"></div>
+                <div class="absolute bottom-1/3 right-1/4 w-1 h-1 bg-emerald-400 rounded-full animate-pulse" style="animation-delay: 3s;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="relative min-h-screen flex flex-col">
+        <!-- 顶栏 - Linear App 风格 -->
+        <header class="backdrop-blur-md bg-white/80 dark:bg-slate-900/90 border-b border-primary-200/50 dark:border-slate-700/50 shadow-soft animate-slide-up sticky top-0 z-50">
+            <div class="container mx-auto px-4 lg:px-6 py-4">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-accent-500 to-accent-600 rounded-xl flex items-center justify-center shadow-soft transform hover:scale-105 transition-transform duration-200">
+                            <i class="fas fa-ticket-alt text-white text-lg"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-xl lg:text-2xl font-bold bg-gradient-to-r from-primary-900 to-primary-700 dark:from-primary-100 dark:to-primary-300 bg-clip-text text-transparent">
+                                彩票选号助手
+                            </h1>
+                            <p class="text-xs text-primary-600 dark:text-primary-400 hidden sm:block">智能选号 · 多种玩法 · 随机生成</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-2 lg:space-x-3">
+                        <!-- 移动端菜单按钮 -->
+                        <button id="mobileMenuBtn" class="lg:hidden p-2 rounded-xl hover:bg-primary-100 dark:hover:bg-primary-700 transition-colors duration-200">
+                            <i class="fas fa-bars text-primary-600 dark:text-primary-400"></i>
+                        </button>
+                        
+                        <!-- 桌面端按钮组 -->
+                        <div class="hidden lg:flex items-center space-x-3">
+                            <a href="/" class="group px-4 py-2 bg-primary-50 hover:bg-primary-100 dark:bg-slate-700/70 dark:hover:bg-slate-600/70 text-primary-600 dark:text-slate-300 rounded-xl transition-all duration-200 transform hover:scale-105 hover:shadow-soft dark:hover:shadow-blue-500/20">
+                                <i class="fas fa-home mr-2 group-hover:scale-110 transition-transform duration-200"></i>
+                                <span class="text-sm font-medium">首页</span>
+                            </a>
+                            <a href="/posts/彩票选号助手/" class="group px-4 py-2 bg-success-50 hover:bg-success-100 dark:bg-emerald-900/30 dark:hover:bg-emerald-800/40 text-success-600 dark:text-emerald-400 rounded-xl transition-all duration-200 transform hover:scale-105 hover:shadow-soft dark:hover:shadow-emerald-500/20">
+                                <i class="fas fa-blog mr-2 group-hover:scale-110 transition-transform duration-200"></i>
+                                <span class="text-sm font-medium">博客</span>
+                            </a>
+                            <button id="clearAllBtn" class="group px-4 py-2 bg-danger-50 hover:bg-danger-100 dark:bg-red-900/30 dark:hover:bg-red-800/40 text-danger-600 dark:text-red-400 rounded-xl transition-all duration-200 transform hover:scale-105 hover:shadow-soft dark:hover:shadow-red-500/20">
+                                <i class="fas fa-trash mr-2 group-hover:scale-110 transition-transform duration-200"></i>
+                                <span class="text-sm font-medium">清空</span>
+                            </button>
+                        </div>
+                        
+                        <button id="themeToggle" class="group p-3 rounded-xl bg-primary-100 hover:bg-primary-200 dark:bg-slate-700 dark:hover:bg-slate-600 transition-all duration-200 transform hover:scale-105 hover:shadow-soft dark:hover:shadow-purple-500/30">
+                            <i class="fas fa-moon dark:hidden text-primary-600 group-hover:scale-110 transition-transform duration-200"></i>
+                            <i class="fas fa-sun hidden dark:block text-yellow-400 group-hover:scale-110 transition-transform duration-200"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 移动端菜单 -->
+                <div id="mobileMenu" class="lg:hidden mt-4 pb-4 border-t border-primary-200/50 dark:border-primary-700/50 hidden animate-slide-up">
+                    <div class="flex flex-col space-y-2 pt-4">
+                        <a href="/" class="flex items-center px-4 py-3 bg-primary-50 hover:bg-primary-100 dark:bg-primary-700 dark:hover:bg-primary-600 text-primary-600 dark:text-primary-400 rounded-xl transition-colors duration-200">
+                            <i class="fas fa-home mr-3"></i>
+                            <span class="font-medium">返回首页</span>
+                        </a>
+                        <a href="/posts/彩票选号助手/" class="flex items-center px-4 py-3 bg-success-50 hover:bg-success-100 dark:bg-success-900/50 dark:hover:bg-success-800/50 text-success-600 dark:text-success-400 rounded-xl transition-colors duration-200">
+                            <i class="fas fa-blog mr-3"></i>
+                            <span class="font-medium">查看博客</span>
+                        </a>
+                        <button id="clearAllBtnMobile" class="flex items-center px-4 py-3 bg-danger-50 hover:bg-danger-100 dark:bg-danger-900/50 dark:hover:bg-danger-800/50 text-danger-600 dark:text-danger-400 rounded-xl transition-colors duration-200">
+                            <i class="fas fa-trash mr-3"></i>
+                            <span class="font-medium">清空结果</span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </header>
 
         <!-- 主内容区 -->
-        <main class="flex-grow container mx-auto px-4 py-6 md:py-10 animate-fade-in">
-            <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition-all hover:shadow-lg">
+        <main class="flex-grow container mx-auto px-4 lg:px-6 py-6 animate-fade-in">
+            <div class="max-w-4xl mx-auto bg-white/70 dark:bg-slate-900/80 backdrop-blur-sm rounded-2xl shadow-soft-lg border border-primary-200/50 dark:border-slate-700/50 overflow-hidden hover:shadow-glow dark:hover:shadow-purple-500/20 transition-all duration-300">
                 <div class="p-6 md:p-8">
                     <!-- 选项卡 -->
-                    <div class="flex mb-6 border-b border-gray-200 dark:border-gray-700">
-                        <button id="tabDaletou" class="tab-button active py-2 px-4 font-medium text-primary-600 border-b-2 border-primary-600">
-                            大乐透
+                    <div class="flex mb-6 border-b border-primary-200/50 dark:border-primary-700/50">
+                        <button id="tabDaletou" class="tab-button active py-3 px-6 font-semibold text-accent-600 dark:text-accent-400 border-b-2 border-accent-600 dark:border-accent-400 transition-all duration-200 hover:bg-accent-50 dark:hover:bg-accent-900/20 rounded-t-lg">
+                            <i class="fas fa-star mr-2"></i>大乐透
                         </button>
-                        <button id="tabShuangseqiu" class="tab-button py-2 px-4 font-medium text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-500">
-                            双色球
+                        <button id="tabShuangseqiu" class="tab-button py-3 px-6 font-semibold text-primary-500 dark:text-primary-400 hover:text-accent-600 dark:hover:text-accent-400 transition-all duration-200 hover:bg-primary-50 dark:hover:bg-primary-800/20 rounded-t-lg">
+                            <i class="fas fa-circle mr-2"></i>双色球
                         </button>
                     </div>
 
@@ -87,65 +217,92 @@ permalink: /lottery-generator/
                     <div class="space-y-6">
                         <!-- 投注模式选择 -->
                         <div class="form-group">
-                            <label class="block text-sm font-medium mb-2">选择投注模式</label>
-                            <div class="flex flex-wrap gap-2">
-                                <button id="modeSimple" class="mode-button active px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
-                                    普通投注
+                            <label class="block text-sm font-semibold mb-3 text-primary-800 dark:text-primary-200">
+                                <i class="fas fa-cog mr-2 text-accent-500"></i>选择投注模式
+                            </label>
+                            <div class="flex flex-wrap gap-3">
+                                <button id="modeSimple" class="mode-button active px-6 py-3 bg-gradient-to-r from-accent-50 to-accent-100 dark:from-accent-900/30 dark:to-accent-800/30 text-accent-700 dark:text-accent-300 rounded-xl hover:from-accent-100 hover:to-accent-200 dark:hover:from-accent-800/40 dark:hover:to-accent-700/40 transition-all duration-200 transform hover:scale-105 shadow-soft border border-accent-200/50 dark:border-accent-700/50">
+                                    <i class="fas fa-dice-one mr-2"></i>普通投注
                                 </button>
-                                <button id="modeMultiple" class="mode-button px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
-                                    复式投注
+                                <button id="modeMultiple" class="mode-button px-6 py-3 bg-primary-50 dark:bg-primary-800/50 text-primary-700 dark:text-primary-300 rounded-xl hover:bg-primary-100 dark:hover:bg-primary-700/50 transition-all duration-200 transform hover:scale-105 shadow-soft border border-primary-200/50 dark:border-primary-700/50">
+                                    <i class="fas fa-dice-six mr-2"></i>复式投注
                                 </button>
-                                <button id="modeDantuo" class="mode-button px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
-                                    胆拖投注
+                                <button id="modeDantuo" class="mode-button px-6 py-3 bg-primary-50 dark:bg-primary-800/50 text-primary-700 dark:text-primary-300 rounded-xl hover:bg-primary-100 dark:hover:bg-primary-700/50 transition-all duration-200 transform hover:scale-105 shadow-soft border border-primary-200/50 dark:border-primary-700/50">
+                                    <i class="fas fa-layer-group mr-2"></i>胆拖投注
                                 </button>
                             </div>
                         </div>
 
                         <!-- 注数选择（普通投注专用） -->
-                        <div id="simpleOptions" class="form-group">
-                            <label class="block text-sm font-medium mb-2">注数</label>
-                            <div class="flex items-center">
-                                <input id="betCount" type="number" min="1" max="10" value="1" class="w-20 p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
-                                <span class="ml-2 text-sm text-gray-500 dark:text-gray-400">注</span>
+                        <div id="simpleOptions" class="form-group bg-gradient-to-r from-primary-50/50 to-accent-50/50 dark:from-primary-800/30 dark:to-accent-800/30 p-4 rounded-xl border border-primary-200/30 dark:border-primary-700/30">
+                            <label class="block text-sm font-semibold mb-3 text-primary-800 dark:text-primary-200">
+                                <i class="fas fa-hashtag mr-2 text-accent-500"></i>注数
+                            </label>
+                            <div class="flex items-center space-x-3">
+                                <input id="betCount" type="number" min="1" max="10" value="1" class="w-20 p-3 border border-primary-300 dark:border-primary-600 dark:bg-primary-800/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-500 dark:focus:ring-accent-400 transition-all duration-200 text-center font-semibold">
+                                <span class="text-sm text-primary-600 dark:text-primary-400 font-medium">注</span>
+                                <div class="text-xs text-primary-500 dark:text-primary-400 bg-primary-100 dark:bg-primary-700/50 px-3 py-1 rounded-full">
+                                    最多10注
+                                </div>
                             </div>
                         </div>
 
                         <!-- 复式投注选项 -->
-                        <div id="multipleOptions" class="form-group hidden space-y-4">
+                        <div id="multipleOptions" class="form-group hidden bg-gradient-to-r from-warning-50/50 to-accent-50/50 dark:from-warning-900/20 dark:to-accent-800/30 p-4 rounded-xl border border-warning-200/30 dark:border-warning-700/30 space-y-4">
                             <div>
-                                <label id="frontLabel" class="block text-sm font-medium mb-2">前区号码数量 (5-7)</label>
-                                <input id="frontCount" type="number" min="5" max="7" value="6" class="w-20 p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                <label id="frontLabel" class="block text-sm font-semibold mb-3 text-primary-800 dark:text-primary-200">
+                                    <i class="fas fa-circle mr-2 text-warning-500"></i>前区号码数量 (5-7)
+                                </label>
+                                <input id="frontCount" type="number" min="5" max="7" value="6" class="w-20 p-3 border border-warning-300 dark:border-warning-600 dark:bg-warning-800/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-warning-500 transition-all duration-200 text-center font-semibold">
                             </div>
                             <div>
-                                <label id="backLabel" class="block text-sm font-medium mb-2">后区号码数量 (2-3)</label>
-                                <input id="backCount" type="number" min="2" max="3" value="2" class="w-20 p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                <label id="backLabel" class="block text-sm font-semibold mb-3 text-primary-800 dark:text-primary-200">
+                                    <i class="fas fa-circle mr-2 text-accent-500"></i>后区号码数量 (2-3)
+                                </label>
+                                <input id="backCount" type="number" min="2" max="3" value="2" class="w-20 p-3 border border-accent-300 dark:border-accent-600 dark:bg-accent-800/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-500 transition-all duration-200 text-center font-semibold">
                             </div>
                         </div>
 
                         <!-- 胆拖投注选项 -->
-                        <div id="dantuoOptions" class="form-group hidden space-y-4">
+                        <div id="dantuoOptions" class="form-group hidden bg-gradient-to-r from-success-50/50 to-accent-50/50 dark:from-success-900/20 dark:to-accent-800/30 p-4 rounded-xl border border-success-200/30 dark:border-success-700/30 space-y-4">
                             <div>
-                                <label id="danLabel" class="block text-sm font-medium mb-2">胆码数量 (1-4)</label>
-                                <input id="danCount" type="number" min="1" max="4" value="1" class="w-20 p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                <label id="danLabel" class="block text-sm font-semibold mb-3 text-primary-800 dark:text-primary-200">
+                                    <i class="fas fa-star mr-2 text-success-500"></i>胆码数量 (1-4)
+                                </label>
+                                <input id="danCount" type="number" min="1" max="4" value="1" class="w-20 p-3 border border-success-300 dark:border-success-600 dark:bg-success-800/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-success-500 transition-all duration-200 text-center font-semibold">
                             </div>
                             <div>
-                                <label id="tuoLabel" class="block text-sm font-medium mb-2">拖码数量 (2-16)</label>
-                                <input id="tuoCount" type="number" min="2" max="16" value="6" class="w-20 p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                <label id="tuoLabel" class="block text-sm font-semibold mb-3 text-primary-800 dark:text-primary-200">
+                                    <i class="fas fa-layer-group mr-2 text-accent-500"></i>拖码数量 (2-16)
+                                </label>
+                                <input id="tuoCount" type="number" min="2" max="16" value="6" class="w-20 p-3 border border-accent-300 dark:border-accent-600 dark:bg-accent-800/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-500 transition-all duration-200 text-center font-semibold">
                             </div>
                         </div>
 
                         <!-- 生成按钮 -->
-                        <div class="mt-6">
-                            <button id="generateBtn" class="w-full sm:w-auto px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-md shadow-sm hover:shadow transition-all transform hover:scale-105 flex items-center justify-center">
-                                <i class="fas fa-random mr-2"></i>生成号码
+                        <div class="mt-8">
+                            <button id="generateBtn" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-accent-500 to-accent-600 hover:from-accent-600 hover:to-accent-700 text-white font-semibold rounded-xl shadow-soft hover:shadow-soft-lg transition-all duration-200 transform hover:scale-105 flex items-center justify-center group">
+                                <i class="fas fa-magic mr-3 group-hover:scale-110 transition-transform duration-200"></i>
+                                <span>生成幸运号码</span>
+                                <div class="ml-3 w-0 group-hover:w-6 transition-all duration-200 overflow-hidden">
+                                    <i class="fas fa-arrow-right"></i>
+                                </div>
                             </button>
                         </div>
                     </div>
 
                     <!-- 号码展示区域 -->
                     <div id="resultsContainer" class="mt-8 hidden animate-fade-in">
-                        <h3 class="text-lg font-medium mb-4">生成结果</h3>
-                        <div id="resultsContent" class="space-y-4"></div>
+                        <div class="bg-gradient-to-r from-primary-50 to-accent-50 dark:from-primary-800/50 dark:to-accent-800/50 p-6 rounded-xl border border-primary-200/50 dark:border-primary-700/50">
+                            <h3 class="text-lg font-bold mb-4 text-primary-800 dark:text-primary-200 flex items-center">
+                                <i class="fas fa-trophy mr-3 text-accent-500"></i>
+                                <span>生成结果</span>
+                                <div class="ml-auto text-sm text-primary-600 dark:text-primary-400 bg-white/50 dark:bg-primary-700/50 px-3 py-1 rounded-full">
+                                    祝您好运！
+                                </div>
+                            </h3>
+                            <div id="resultsContent" class="space-y-4"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -168,16 +325,22 @@ permalink: /lottery-generator/
             document.documentElement.classList.toggle('dark');
         });
 
+        // 移动端菜单切换
+        document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
         // 选项卡切换
         const tabs = document.querySelectorAll('.tab-button');
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
                 tabs.forEach(t => {
-                    t.classList.remove('active', 'text-primary-600', 'border-b-2', 'border-primary-600');
-                    t.classList.add('text-gray-500', 'dark:text-gray-400');
+                    t.classList.remove('active', 'text-accent-600', 'dark:text-accent-400', 'border-b-2', 'border-accent-600', 'dark:border-accent-400');
+                    t.classList.add('text-primary-500', 'dark:text-primary-400');
                 });
-                tab.classList.add('active', 'text-primary-600', 'border-b-2', 'border-primary-600');
-                tab.classList.remove('text-gray-500', 'dark:text-gray-400');
+                tab.classList.add('active', 'text-accent-600', 'dark:text-accent-400', 'border-b-2', 'border-accent-600', 'dark:border-accent-400');
+                tab.classList.remove('text-primary-500', 'dark:text-primary-400');
                 
                 // 更新表单限制
                 updateLotteryLimits();
@@ -195,9 +358,11 @@ permalink: /lottery-generator/
         modes.forEach(mode => {
             mode.addEventListener('click', () => {
                 modes.forEach(m => {
-                    m.classList.remove('active', 'bg-primary-100', 'dark:bg-primary-900', 'text-primary-700', 'dark:text-primary-300');
+                    m.classList.remove('active', 'bg-gradient-to-r', 'from-accent-50', 'to-accent-100', 'dark:from-accent-900/30', 'dark:to-accent-800/30', 'text-accent-700', 'dark:text-accent-300', 'border-accent-200/50', 'dark:border-accent-700/50');
+                    m.classList.add('bg-primary-50', 'dark:bg-primary-800/50', 'text-primary-700', 'dark:text-primary-300', 'border-primary-200/50', 'dark:border-primary-700/50');
                 });
-                mode.classList.add('active', 'bg-primary-100', 'dark:bg-primary-900', 'text-primary-700', 'dark:text-primary-300');
+                mode.classList.add('active', 'bg-gradient-to-r', 'from-accent-50', 'to-accent-100', 'dark:from-accent-900/30', 'dark:to-accent-800/30', 'text-accent-700', 'dark:text-accent-300', 'border-accent-200/50', 'dark:border-accent-700/50');
+                mode.classList.remove('bg-primary-50', 'dark:bg-primary-800/50', 'text-primary-700', 'dark:text-primary-300', 'border-primary-200/50', 'dark:border-primary-700/50');
                 
                 // 隐藏所有选项
                 simpleOptions.classList.add('hidden');
@@ -238,9 +403,9 @@ permalink: /lottery-generator/
                 backCountInput.max = 3;
                 danCountInput.max = 4;
                 
-                frontLabel.textContent = '前区号码数量 (5-7)';
-                backLabel.textContent = '后区号码数量 (2-3)';
-                danLabel.textContent = '胆码数量 (1-4)';
+                frontLabel.innerHTML = '<i class="fas fa-circle mr-2 text-warning-500"></i>前区号码数量 (5-7)';
+                backLabel.innerHTML = '<i class="fas fa-circle mr-2 text-accent-500"></i>后区号码数量 (2-3)';
+                danLabel.innerHTML = '<i class="fas fa-star mr-2 text-success-500"></i>胆码数量 (1-4)';
             } else {
                 // 双色球
                 frontCountInput.min = 6;
@@ -249,9 +414,9 @@ permalink: /lottery-generator/
                 backCountInput.max = 16;
                 danCountInput.max = 5;
                 
-                frontLabel.textContent = '红球号码数量 (6-12)';
-                backLabel.textContent = '蓝球号码数量 (1-16)';
-                danLabel.textContent = '胆码数量 (1-5)';
+                frontLabel.innerHTML = '<i class="fas fa-circle mr-2 text-warning-500"></i>红球号码数量 (6-12)';
+                backLabel.innerHTML = '<i class="fas fa-circle mr-2 text-accent-500"></i>蓝球号码数量 (1-16)';
+                danLabel.innerHTML = '<i class="fas fa-star mr-2 text-success-500"></i>胆码数量 (1-5)';
             }
             
             // 确保当前值在新范围内
@@ -282,7 +447,7 @@ permalink: /lottery-generator/
                 tuoCountInput.max = 33 - danCount;  // 双色球红球总共33个数字
             }
             
-            tuoLabel.textContent = `拖码数量 (${tuoCountInput.min}-${tuoCountInput.max})`;
+            tuoLabel.innerHTML = `<i class="fas fa-layer-group mr-2 text-accent-500"></i>拖码数量 (${tuoCountInput.min}-${tuoCountInput.max})`;
             
             if (parseInt(tuoCountInput.value) < parseInt(tuoCountInput.min)) {
                 tuoCountInput.value = tuoCountInput.min;
@@ -449,19 +614,19 @@ permalink: /lottery-generator/
             frontNumbers.sort((a, b) => a - b);
             backNumbers.sort((a, b) => a - b);
             
-            let html = '<div class="flex flex-wrap items-center gap-2 mb-2">';
+            let html = '<div class="flex flex-wrap items-center gap-2">';
             
-            // 前区号码
-            frontNumbers.forEach(num => {
-                html += `<div class="ball-red w-10 h-10 flex items-center justify-center rounded-full bg-red-ball text-white font-medium text-sm transition-transform hover:scale-110">${num.toString().padStart(2, '0')}</div>`;
+            // 前区/红球
+            frontNumbers.forEach((num, index) => {
+                html += `<div class="w-10 h-10 bg-gradient-to-br from-lottery-red to-red-600 text-white rounded-full flex items-center justify-center font-bold text-sm shadow-lottery-red transform hover:scale-110 transition-all duration-200 animate-ball-bounce" style="animation-delay: ${index * 0.1}s">${num.toString().padStart(2, '0')}</div>`;
             });
             
             // 分隔符
-            html += '<div class="mx-2 text-gray-400">+</div>';
+            html += '<div class="mx-2 text-2xl text-primary-400 dark:text-primary-500">+</div>';
             
-            // 后区号码
-            backNumbers.forEach(num => {
-                html += `<div class="ball-blue w-10 h-10 flex items-center justify-center rounded-full bg-blue-ball text-white font-medium text-sm transition-transform hover:scale-110">${num.toString().padStart(2, '0')}</div>`;
+            // 后区/蓝球
+            backNumbers.forEach((num, index) => {
+                html += `<div class="w-10 h-10 bg-gradient-to-br from-lottery-blue to-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm shadow-lottery-blue transform hover:scale-110 transition-all duration-200 animate-ball-bounce" style="animation-delay: ${(frontNumbers.length + index) * 0.1}s">${num.toString().padStart(2, '0')}</div>`;
             });
             
             html += '</div>';
@@ -469,428 +634,81 @@ permalink: /lottery-generator/
         }
         
         function createDantuoBallsHTML(frontNumbers, backNumbers, danCount) {
-            const danNumbers = frontNumbers.slice(0, danCount).sort((a, b) => a - b);
-            const tuoNumbers = frontNumbers.slice(danCount).sort((a, b) => a - b);
+            frontNumbers.sort((a, b) => a - b);
             backNumbers.sort((a, b) => a - b);
             
-            let html = '<div class="space-y-3">';
+            let html = '<div class="flex flex-wrap items-center gap-2">';
             
-            // 胆码
-            html += '<div class="flex items-center gap-2"><span class="text-sm font-medium w-12">胆码：</span><div class="flex flex-wrap gap-2">';
-            danNumbers.forEach(num => {
-                html += `<div class="ball-red w-10 h-10 flex items-center justify-center rounded-full bg-red-ball text-white font-medium text-sm transition-transform hover:scale-110">${num.toString().padStart(2, '0')}</div>`;
-            });
-            html += '</div></div>';
+            // 胆码（特殊样式）
+            for (let i = 0; i < danCount; i++) {
+                html += `<div class="w-10 h-10 bg-gradient-to-br from-yellow-400 to-yellow-600 text-white rounded-full flex items-center justify-center font-bold text-sm shadow-lg border-2 border-yellow-300 transform hover:scale-110 transition-all duration-200 animate-ball-bounce" style="animation-delay: ${i * 0.1}s">${frontNumbers[i].toString().padStart(2, '0')}</div>`;
+            }
             
             // 拖码
-            html += '<div class="flex items-center gap-2"><span class="text-sm font-medium w-12">拖码：</span><div class="flex flex-wrap gap-2">';
-            tuoNumbers.forEach(num => {
-                html += `<div class="ball-red w-10 h-10 flex items-center justify-center rounded-full bg-red-ball text-white font-medium text-sm transition-transform hover:scale-110">${num.toString().padStart(2, '0')}</div>`;
-            });
-            html += '</div></div>';
+            for (let i = danCount; i < frontNumbers.length; i++) {
+                html += `<div class="w-10 h-10 bg-gradient-to-br from-lottery-red to-red-600 text-white rounded-full flex items-center justify-center font-bold text-sm shadow-lottery-red transform hover:scale-110 transition-all duration-200 animate-ball-bounce" style="animation-delay: ${i * 0.1}s">${frontNumbers[i].toString().padStart(2, '0')}</div>`;
+            }
             
-            // 后区
-            html += '<div class="flex items-center gap-2"><span class="text-sm font-medium w-12">后区：</span><div class="flex flex-wrap gap-2">';
-            backNumbers.forEach(num => {
-                html += `<div class="ball-blue w-10 h-10 flex items-center justify-center rounded-full bg-blue-ball text-white font-medium text-sm transition-transform hover:scale-110">${num.toString().padStart(2, '0')}</div>`;
+            // 分隔符
+            html += '<div class="mx-2 text-2xl text-primary-400 dark:text-primary-500">+</div>';
+            
+            // 后区/蓝球
+            backNumbers.forEach((num, index) => {
+                html += `<div class="w-10 h-10 bg-gradient-to-br from-lottery-blue to-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm shadow-lottery-blue transform hover:scale-110 transition-all duration-200 animate-ball-bounce" style="animation-delay: ${(frontNumbers.length + index) * 0.1}s">${num.toString().padStart(2, '0')}</div>`;
             });
-            html += '</div></div>';
             
             html += '</div>';
+            
+            // 添加胆拖说明
+            html += '<div class="mt-2 text-xs text-primary-600 dark:text-primary-400 flex items-center">';
+            html += '<div class="w-3 h-3 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full mr-2"></div>';
+            html += `胆码 ${danCount} 个，拖码 ${frontNumbers.length - danCount} 个`;
+            html += '</div>';
+            
             return html;
         }
         
-        function displayResult(lotteryType, mode, resultHTML, groupNumber) {
+        function displayResult(lotteryType, mode, ballsHTML, groupNumber) {
             const resultsContent = document.getElementById('resultsContent');
             
-            let modeText = '普通投注';
-            if (mode === 'modeMultiple') modeText = '复式投注';
-            if (mode === 'modeDantuo') modeText = '胆拖投注';
+            const modeNames = {
+                'modeSimple': '普通投注',
+                'modeMultiple': '复式投注',
+                'modeDantuo': '胆拖投注'
+            };
             
-            const groupTag = document.querySelector('.mode-button.active').id === 'modeSimple' && parseInt(document.getElementById('betCount').value) > 1
-                ? `<span class="text-xs font-medium ml-2 px-2 py-0.5 bg-gray-100 dark:bg-gray-700 rounded">第 ${groupNumber} 注</span>`
-                : '';
-            
-            const resultCard = document.createElement('div');
-            resultCard.className = 'p-4 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 animate-fade-in';
-            resultCard.innerHTML = `
-                <div class="flex justify-between items-center mb-3">
-                    <h4 class="text-base font-medium">${lotteryType} · ${modeText}${groupTag}</h4>
-                    <span class="text-xs text-gray-500">${new Date().toLocaleString('zh-CN', {hour12: false})}</span>
+            const resultDiv = document.createElement('div');
+            resultDiv.className = 'bg-white/50 dark:bg-primary-800/30 p-4 rounded-xl border border-primary-200/30 dark:border-primary-700/30 hover:shadow-soft transition-all duration-200 animate-scale-in';
+            resultDiv.innerHTML = `
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm font-semibold text-primary-700 dark:text-primary-300">${lotteryType}</span>
+                        <span class="text-xs text-primary-500 dark:text-primary-400 bg-primary-100 dark:bg-primary-700/50 px-2 py-1 rounded-full">${modeNames[mode]}</span>
+                        ${groupNumber > 1 ? `<span class="text-xs text-accent-600 dark:text-accent-400 bg-accent-100 dark:bg-accent-800/50 px-2 py-1 rounded-full">第${groupNumber}注</span>` : ''}
+                    </div>
+                    <div class="text-xs text-primary-500 dark:text-primary-400">
+                        ${new Date().toLocaleTimeString()}
+                    </div>
                 </div>
-                ${resultHTML}
+                ${ballsHTML}
             `;
             
-            resultsContent.appendChild(resultCard);
+            resultsContent.appendChild(resultDiv);
         }
         
         function hideResults() {
             document.getElementById('resultsContainer').classList.add('hidden');
-            document.getElementById('resultsContent').innerHTML = '';
         }
         
-        // 添加输入值变化时的限制检查
-        document.getElementById('frontCount').addEventListener('change', () => {
-            const input = document.getElementById('frontCount');
-            if (parseInt(input.value) < parseInt(input.min)) input.value = input.min;
-            if (parseInt(input.value) > parseInt(input.max)) input.value = input.max;
-        });
-        
-        document.getElementById('backCount').addEventListener('change', () => {
-            const input = document.getElementById('backCount');
-            if (parseInt(input.value) < parseInt(input.min)) input.value = input.min;
-            if (parseInt(input.value) > parseInt(input.max)) input.value = input.max;
-        });
-        
-        document.getElementById('danCount').addEventListener('change', () => {
-            const input = document.getElementById('danCount');
-            if (parseInt(input.value) < parseInt(input.min)) input.value = input.min;
-            if (parseInt(input.value) > parseInt(input.max)) input.value = input.max;
-        });
-        
-        document.getElementById('tuoCount').addEventListener('change', () => {
-            const input = document.getElementById('tuoCount');
-            if (parseInt(input.value) < parseInt(input.min)) input.value = input.min;
-            if (parseInt(input.value) > parseInt(input.max)) input.value = input.max;
-        });
-        
-        document.getElementById('betCount').addEventListener('change', () => {
-            const input = document.getElementById('betCount');
-            if (parseInt(input.value) < parseInt(input.min)) input.value = input.min;
-            if (parseInt(input.value) > parseInt(input.max)) input.value = input.max;
-        });
-        
-        // 添加一些自定义
-        // 添加一些自定义样式
-        const style = document.createElement('style');
-        style.textContent = `
-            .ball-red:hover {
-                background-color: #e03535;
-            }
-            .ball-blue:hover {
-                background-color: #2b6fee;
-            }
-            .tab-button.active {
-                font-weight: 600;
-            }
-            .mode-button.active {
-                font-weight: 500;
-            }
-            
-            /* 添加一些平滑过渡动画 */
-            .animate-fade-in {
-                animation: fadeIn 0.5s ease-out;
-            }
-            
-            @keyframes fadeIn {
-                from { opacity: 0; transform: translateY(10px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-            
-            /* 移动端适配优化 */
-            @media (max-width: 640px) {
-                .ball-red, .ball-blue {
-                    width: 2rem;
-                    height: 2rem;
-                    font-size: 0.75rem;
-                }
-            }
-            
-            /* 懒加载效果 */
-            .lazy-load {
-                opacity: 0;
-                transform: translateY(20px);
-                transition: opacity 0.5s ease, transform 0.5s ease;
-            }
-            
-            .lazy-load.loaded {
-                opacity: 1;
-                transform: translateY(0);
-            }
-            
-            /* 复制按钮样式 */
-            .copy-btn {
-                opacity: 0;
-                transition: opacity 0.2s ease;
-            }
-            
-            .result-card:hover .copy-btn {
-                opacity: 1;
-            }
-        `;
-        document.head.appendChild(style);
-        
-        // 添加自动检测系统主题变化的功能
-        if (window.matchMedia) {
-            const colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
-            colorSchemeQuery.addEventListener('change', (e) => {
-                if (e.matches) {
-                    document.documentElement.classList.add('dark');
-                } else {
-                    document.documentElement.classList.remove('dark');
-                }
-            });
-        }
-        
-        // 添加复制功能
-        function addCopyButtonToResults() {
-            const resultCards = document.querySelectorAll('#resultsContent > div');
-            resultCards.forEach(card => {
-                // 防止重复添加
-                if (card.querySelector('.copy-btn')) return;
-                
-                card.classList.add('result-card', 'relative');
-                
-                const copyBtn = document.createElement('button');
-                copyBtn.className = 'copy-btn absolute top-4 right-4 p-1.5 bg-gray-100 dark:bg-gray-800 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors';
-                copyBtn.innerHTML = '<i class="far fa-copy"></i>';
-                copyBtn.title = '复制号码';
-                
-                copyBtn.addEventListener('click', () => {
-                    // 提取号码文本
-                    let numbers = '';
-                    const ballElements = card.querySelectorAll('.ball-red, .ball-blue');
-                    ballElements.forEach((ball, index) => {
-                        numbers += ball.textContent;
-                        if (index < ballElements.length - 1) {
-                            numbers += ' ';
-                        }
-                    });
-                    
-                    // 复制到剪贴板
-                    navigator.clipboard.writeText(numbers).then(() => {
-                        copyBtn.innerHTML = '<i class="fas fa-check"></i>';
-                        setTimeout(() => {
-                            copyBtn.innerHTML = '<i class="far fa-copy"></i>';
-                        }, 2000);
-                    });
-                });
-                
-                card.appendChild(copyBtn);
-            });
-        }
-        
-        // 添加导出功能
-        function addExportButton() {
-            const resultsContainer = document.getElementById('resultsContainer');
-            if (!resultsContainer.querySelector('#exportBtn')) {
-                const exportBtn = document.createElement('button');
-                exportBtn.id = 'exportBtn';
-                exportBtn.className = 'mt-4 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors flex items-center';
-                exportBtn.innerHTML = '<i class="fas fa-download mr-2"></i>导出结果';
-                
-                exportBtn.addEventListener('click', () => {
-                    let exportText = '';
-                    const resultCards = document.querySelectorAll('#resultsContent > div');
-                    
-                    resultCards.forEach(card => {
-                        const header = card.querySelector('h4').textContent;
-                        const timestamp = card.querySelector('.text-xs.text-gray-500').textContent;
-                        
-                        exportText += `${header} (${timestamp})\n`;
-                        
-                        // 胆拖投注特殊处理
-                        if (header.includes('胆拖')) {
-                            const sections = card.querySelectorAll('.flex.items-center.gap-2');
-                            sections.forEach(section => {
-                                const label = section.querySelector('span.text-sm.font-medium').textContent;
-                                const balls = section.querySelectorAll('.ball-red, .ball-blue');
-                                let ballText = '';
-                                balls.forEach(ball => {
-                                    ballText += ball.textContent + ' ';
-                                });
-                                exportText += `${label} ${ballText.trim()}\n`;
-                            });
-                        } else {
-                            // 普通和复式投注
-                            const balls = card.querySelectorAll('.ball-red, .ball-blue');
-                            let ballText = '';
-                            balls.forEach(ball => {
-                                ballText += ball.textContent + ' ';
-                            });
-                            exportText += ballText.trim() + '\n';
-                        }
-                        
-                        exportText += '\n';
-                    });
-                    
-                    // 创建一个临时的a标签来下载
-                    const blob = new Blob([exportText], { type: 'text/plain' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = `彩票号码_${new Date().toISOString().slice(0, 10)}.txt`;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-
-                    // 显示导出成功提示
-                    const oldText = exportBtn.innerHTML;
-                    exportBtn.innerHTML = '<i class="fas fa-check mr-2"></i>导出成功';
-                    setTimeout(() => {
-                        exportBtn.innerHTML = oldText;
-                    }, 2000);
-                });
-                
-                resultsContainer.appendChild(exportBtn);
-            }
-        }
-        
-        // 修改生成号码按钮事件，添加复制功能和导出功能
-        document.getElementById('generateBtn').addEventListener('click', () => {
-            generateNumbers();
-            
-            // 添加复制按钮到每个结果
-            setTimeout(() => {
-                addCopyButtonToResults();
-                addExportButton();
-            }, 100);
-        });
-        
-        // 实现号码分析功能
-        function analyzeNumbers() {
-            const isTabDaletou = document.getElementById('tabDaletou').classList.contains('active');
+        // 清空结果功能
+        function clearAllResults() {
             const resultsContent = document.getElementById('resultsContent');
-            const resultCards = resultsContent.querySelectorAll('.result-card');
-            
-            if (resultCards.length < 2) return; // 需要至少两组号码才能分析
-            
-            // 创建分析结果卡片
-            const analysisCard = document.createElement('div');
-            analysisCard.className = 'p-4 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 animate-fade-in mt-4';
-            
-            // 收集数字出现频率
-            const frontFrequency = {};
-            const backFrequency = {};
-            
-            resultCards.forEach(card => {
-                const redBalls = card.querySelectorAll('.ball-red');
-                const blueBalls = card.querySelectorAll('.ball-blue');
-                
-                redBalls.forEach(ball => {
-                    const num = parseInt(ball.textContent);
-                    frontFrequency[num] = (frontFrequency[num] || 0) + 1;
-                });
-                
-                blueBalls.forEach(ball => {
-                    const num = parseInt(ball.textContent);
-                    backFrequency[num] = (backFrequency[num] || 0) + 1;
-                });
-            });
-            
-            // 找出最常出现的号码
-            const mostFrequentFront = Object.keys(frontFrequency).sort((a, b) => frontFrequency[b] - frontFrequency[a]).slice(0, 5);
-            const mostFrequentBack = Object.keys(backFrequency).sort((a, b) => backFrequency[b] - frontFrequency[a]).slice(0, 2);
-            
-            // 创建分析结果HTML
-            let analysisHTML = `
-                <div class="flex justify-between items-center mb-3">
-                    <h4 class="text-base font-medium">号码分析结果</h4>
-                    <span class="text-xs text-gray-500">${new Date().toLocaleString('zh-CN', {hour12: false})}</span>
-                </div>
-                <div class="space-y-3">
-                    <div>
-                        <p class="text-sm font-medium mb-2">出现频率最高的${isTabDaletou ? '前区' : '红球'}号码：</p>
-                        <div class="flex flex-wrap gap-2">
-            `;
-            
-            mostFrequentFront.forEach(num => {
-                analysisHTML += `
-                    <div class="flex flex-col items-center">
-                        <div class="ball-red w-10 h-10 flex items-center justify-center rounded-full bg-red-ball text-white font-medium text-sm">${num.toString().padStart(2, '0')}</div>
-                        <span class="text-xs mt-1">${frontFrequency[num]}次</span>
-                    </div>
-                `;
-            });
-            
-            analysisHTML += `
-                        </div>
-                    </div>
-                    <div>
-                        <p class="text-sm font-medium mb-2">出现频率最高的${isTabDaletou ? '后区' : '蓝球'}号码：</p>
-                        <div class="flex flex-wrap gap-2">
-            `;
-            
-            mostFrequentBack.forEach(num => {
-                analysisHTML += `
-                    <div class="flex flex-col items-center">
-                        <div class="ball-blue w-10 h-10 flex items-center justify-center rounded-full bg-blue-ball text-white font-medium text-sm">${num.toString().padStart(2, '0')}</div>
-                        <span class="text-xs mt-1">${backFrequency[num]}次</span>
-                    </div>
-                `;
-            });
-            
-            analysisHTML += `
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            analysisCard.innerHTML = analysisHTML;
-            resultsContent.appendChild(analysisCard);
+            resultsContent.innerHTML = '';
+            hideResults();
         }
         
-        // 仅在有足够的结果时才显示分析按钮
-        function addAnalysisButton() {
-            const resultsContainer = document.getElementById('resultsContainer');
-            const resultCards = document.querySelectorAll('#resultsContent > div');
-            
-            if (resultCards.length >= 2 && !resultsContainer.querySelector('#analysisBtn')) {
-                const analysisBtn = document.createElement('button');
-                analysisBtn.id = 'analysisBtn';
-                analysisBtn.className = 'mt-4 mr-2 px-4 py-2 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 rounded-md hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors flex items-center';
-                analysisBtn.innerHTML = '<i class="fas fa-chart-bar mr-2"></i>分析号码';
-                
-                analysisBtn.addEventListener('click', () => {
-                    analyzeNumbers();
-                    analysisBtn.disabled = true;
-                    analysisBtn.className = 'mt-4 mr-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 rounded-md cursor-not-allowed flex items-center';
-                    analysisBtn.innerHTML = '<i class="fas fa-chart-bar mr-2"></i>已分析';
-                });
-                
-                const exportBtn = document.getElementById('exportBtn');
-                if (exportBtn) {
-                    resultsContainer.insertBefore(analysisBtn, exportBtn);
-                } else {
-                    resultsContainer.appendChild(analysisBtn);
-                }
-            }
-        }
-        
-        // 修改生成号码按钮事件，添加分析功能
-        const originalGenerateBtn = document.getElementById('generateBtn').onclick;
-        document.getElementById('generateBtn').onclick = function() {
-            generateNumbers();
-            
-            // 添加复制按钮和导出功能
-            setTimeout(() => {
-                addCopyButtonToResults();
-                addExportButton();
-                addAnalysisButton();
-            }, 100);
-        };
-        
-        // 实现懒加载效果
-        function initLazyLoad() {
-            const lazyElements = document.querySelectorAll('.lazy-load');
-            
-            const lazyLoadObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('loaded');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            });
-            
-            lazyElements.forEach(element => {
-                lazyLoadObserver.observe(element);
-            });
-        }
-        
-        // 页面加载完成后初始化懒加载
-        window.addEventListener('load', initLazyLoad);
+        document.getElementById('clearAllBtn').addEventListener('click', clearAllResults);
+        document.getElementById('clearAllBtnMobile').addEventListener('click', clearAllResults);
     </script>
 </body>
 </html>

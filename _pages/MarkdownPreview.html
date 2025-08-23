@@ -784,10 +784,7 @@ permalink: /markdown-preview/
         // 初始化面板调整功能
         setupPanelResize();
         
-        // 获取当前内容的辅助函数
-        function getCurrentContent() {
-            return isMobile ? mobileEditor.value : editor.value;
-        }
+        // 获取当前内容的辅助函数已移至后面统一定义
         
         // 显示提示消息
         function showToast(message, type = 'info') {
@@ -922,8 +919,8 @@ permalink: /markdown-preview/
                 startAutoSave();
             }
             
-            editor.addEventListener('input', handleContentChange);
-            mobileEditor.addEventListener('input', handleContentChange);
+            if (markdownInput) markdownInput.addEventListener('input', handleContentChange);
+            if (markdownInputMobile) markdownInputMobile.addEventListener('input', handleContentChange);
             
             // 页面失去焦点时立即保存
             window.addEventListener('beforeunload', autoSave);
