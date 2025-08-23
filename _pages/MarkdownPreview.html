@@ -101,16 +101,32 @@ permalink: /markdown-preview/
         }
     </script>
 </head>
-<body class="bg-gradient-to-br from-primary-50 to-white dark:from-primary-900 dark:to-primary-800 text-primary-900 dark:text-primary-50 transition-all duration-500 ease-out">
+<body class="bg-gradient-to-br from-primary-50 to-white dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 text-primary-900 dark:text-slate-50 transition-all duration-500 ease-out">
     <!-- 背景装饰 -->
     <div class="fixed inset-0 overflow-hidden pointer-events-none">
-        <div class="absolute -top-40 -right-40 w-80 h-80 bg-accent-200/20 dark:bg-accent-800/10 rounded-full blur-3xl animate-pulse"></div>
-        <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-accent-300/20 dark:bg-accent-700/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+        <!-- 光模式装饰 -->
+        <div class="dark:hidden">
+            <div class="absolute -top-40 -right-40 w-80 h-80 bg-accent-200/20 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-accent-300/20 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+        </div>
+        <!-- 深色模式装饰 -->
+        <div class="hidden dark:block">
+            <div class="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-purple-500/10 to-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-tr from-cyan-500/10 to-emerald-500/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-gradient-to-r from-indigo-500/5 to-pink-500/5 rounded-full blur-3xl animate-pulse" style="animation-delay: 4s;"></div>
+            <!-- 星空效果 -->
+            <div class="absolute inset-0">
+                <div class="absolute top-1/4 left-1/4 w-1 h-1 bg-blue-400 rounded-full animate-pulse"></div>
+                <div class="absolute top-1/3 right-1/3 w-1 h-1 bg-purple-400 rounded-full animate-pulse" style="animation-delay: 1s;"></div>
+                <div class="absolute bottom-1/4 left-1/3 w-1 h-1 bg-cyan-400 rounded-full animate-pulse" style="animation-delay: 2s;"></div>
+                <div class="absolute bottom-1/3 right-1/4 w-1 h-1 bg-emerald-400 rounded-full animate-pulse" style="animation-delay: 3s;"></div>
+            </div>
+        </div>
     </div>
 
     <div class="relative min-h-screen flex flex-col">
         <!-- 顶栏 - Linear App 风格 -->
-        <header class="backdrop-blur-md bg-white/80 dark:bg-primary-800/80 border-b border-primary-200/50 dark:border-primary-700/50 shadow-soft animate-slide-up sticky top-0 z-50">
+        <header class="backdrop-blur-md bg-white/80 dark:bg-slate-900/90 border-b border-primary-200/50 dark:border-slate-700/50 shadow-soft animate-slide-up sticky top-0 z-50">
             <div class="container mx-auto px-4 lg:px-6 py-4">
                 <div class="flex justify-between items-center">
                     <div class="flex items-center space-x-3">
@@ -133,31 +149,31 @@ permalink: /markdown-preview/
                         
                         <!-- 桌面端按钮组 -->
                         <div class="hidden lg:flex items-center space-x-3">
-                            <a href="/" class="group px-4 py-2 bg-primary-50 hover:bg-primary-100 dark:bg-primary-700 dark:hover:bg-primary-600 text-primary-600 dark:text-primary-400 rounded-xl transition-all duration-200 transform hover:scale-105 hover:shadow-soft">
+                            <a href="/" class="group px-4 py-2 bg-primary-50 hover:bg-primary-100 dark:bg-slate-700/70 dark:hover:bg-slate-600/70 text-primary-600 dark:text-slate-300 rounded-xl transition-all duration-200 transform hover:scale-105 hover:shadow-soft dark:hover:shadow-blue-500/20">
                                 <i class="fas fa-home mr-2 group-hover:scale-110 transition-transform duration-200"></i>
                                 <span class="text-sm font-medium">首页</span>
                             </a>
-                            <a href="/posts/Markdown-Preview-Tool/" class="group px-4 py-2 bg-success-50 hover:bg-success-100 dark:bg-success-900/50 dark:hover:bg-success-800/50 text-success-600 dark:text-success-400 rounded-xl transition-all duration-200 transform hover:scale-105 hover:shadow-soft">
+                            <a href="/posts/Markdown-Preview-Tool/" class="group px-4 py-2 bg-success-50 hover:bg-success-100 dark:bg-emerald-900/30 dark:hover:bg-emerald-800/40 text-success-600 dark:text-emerald-400 rounded-xl transition-all duration-200 transform hover:scale-105 hover:shadow-soft dark:hover:shadow-emerald-500/20">
                                 <i class="fas fa-blog mr-2 group-hover:scale-110 transition-transform duration-200"></i>
                                 <span class="text-sm font-medium">博客</span>
                             </a>
-                            <button id="openFileBtn" class="group px-4 py-2 bg-accent-50 hover:bg-accent-100 dark:bg-accent-900/50 dark:hover:bg-accent-800/50 text-accent-600 dark:text-accent-400 rounded-xl transition-all duration-200 transform hover:scale-105 hover:shadow-soft">
+                            <button id="openFileBtn" class="group px-4 py-2 bg-accent-50 hover:bg-accent-100 dark:bg-blue-900/30 dark:hover:bg-blue-800/40 text-accent-600 dark:text-blue-400 rounded-xl transition-all duration-200 transform hover:scale-105 hover:shadow-soft dark:hover:shadow-blue-500/20">
                                 <i class="fas fa-folder-open mr-2 group-hover:scale-110 transition-transform duration-200"></i>
                                 <span class="text-sm font-medium">打开</span>
                             </button>
-                            <button id="fullscreenBtn" class="group px-4 py-2 bg-primary-100 hover:bg-primary-200 dark:bg-primary-700 dark:hover:bg-primary-600 text-primary-700 dark:text-primary-300 rounded-xl transition-all duration-200 transform hover:scale-105 hover:shadow-soft">
+                            <button id="fullscreenBtn" class="group px-4 py-2 bg-primary-100 hover:bg-primary-200 dark:bg-purple-900/30 dark:hover:bg-purple-800/40 text-primary-700 dark:text-purple-400 rounded-xl transition-all duration-200 transform hover:scale-105 hover:shadow-soft dark:hover:shadow-purple-500/20">
                                 <i class="fas fa-expand mr-2 group-hover:scale-110 transition-transform duration-200"></i>
                                 <span class="text-sm font-medium">全屏</span>
                             </button>
-                            <button id="clearBtn" class="group px-4 py-2 bg-danger-50 hover:bg-danger-100 dark:bg-danger-900/50 dark:hover:bg-danger-800/50 text-danger-600 dark:text-danger-400 rounded-xl transition-all duration-200 transform hover:scale-105 hover:shadow-soft">
+                            <button id="clearBtn" class="group px-4 py-2 bg-danger-50 hover:bg-danger-100 dark:bg-red-900/30 dark:hover:bg-red-800/40 text-danger-600 dark:text-red-400 rounded-xl transition-all duration-200 transform hover:scale-105 hover:shadow-soft dark:hover:shadow-red-500/20">
                                 <i class="fas fa-trash mr-2 group-hover:scale-110 transition-transform duration-200"></i>
                                 <span class="text-sm font-medium">清空</span>
                             </button>
                         </div>
                         
-                        <button id="themeToggle" class="group p-3 rounded-xl bg-primary-100 hover:bg-primary-200 dark:bg-primary-700 dark:hover:bg-primary-600 transition-all duration-200 transform hover:scale-105 hover:shadow-soft">
+                        <button id="themeToggle" class="group p-3 rounded-xl bg-primary-100 hover:bg-primary-200 dark:bg-slate-700 dark:hover:bg-slate-600 transition-all duration-200 transform hover:scale-105 hover:shadow-soft dark:hover:shadow-purple-500/30">
                             <i class="fas fa-moon dark:hidden text-primary-600 group-hover:scale-110 transition-transform duration-200"></i>
-                            <i class="fas fa-sun hidden dark:block text-primary-400 group-hover:scale-110 transition-transform duration-200"></i>
+                            <i class="fas fa-sun hidden dark:block text-yellow-400 group-hover:scale-110 transition-transform duration-200"></i>
                         </button>
                     </div>
                 </div>
@@ -192,12 +208,12 @@ permalink: /markdown-preview/
 
         <!-- 主内容区 - 响应式设计 -->
         <main class="flex-grow container mx-auto px-4 lg:px-6 py-6 animate-fade-in">
-            <div class="h-full max-h-[calc(100vh-140px)] bg-white/70 dark:bg-primary-800/70 backdrop-blur-sm rounded-2xl shadow-soft-lg border border-primary-200/50 dark:border-primary-700/50 overflow-hidden hover:shadow-glow transition-all duration-300">
+            <div class="h-full max-h-[calc(100vh-140px)] bg-white/70 dark:bg-slate-900/80 backdrop-blur-sm rounded-2xl shadow-soft-lg border border-primary-200/50 dark:border-slate-700/50 overflow-hidden hover:shadow-glow dark:hover:shadow-purple-500/20 transition-all duration-300">
                 <!-- 桌面端布局 -->
                 <div class="hidden lg:flex h-full">
                     <!-- 编辑器区域 -->
                     <div id="editorPanel" class="flex flex-col group" style="width: 50%;">
-                        <div class="bg-gradient-to-r from-primary-50 to-primary-100/50 dark:from-primary-800 dark:to-primary-700/50 px-6 py-4 border-b border-primary-200/50 dark:border-primary-700/50">
+                        <div class="bg-gradient-to-r from-primary-50 to-primary-100/50 dark:from-slate-800/80 dark:to-slate-700/50 px-6 py-4 border-b border-primary-200/50 dark:border-slate-600/50">
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center space-x-3">
                                     <h3 class="font-semibold text-primary-800 dark:text-primary-200 flex items-center">
@@ -471,18 +487,56 @@ permalink: /markdown-preview/
             
             const exitBtn = document.createElement('button');
             exitBtn.id = 'fullscreenExitBtn';
-            exitBtn.className = 'fixed top-4 left-4 z-[10000] px-3 py-2 bg-red-500/90 hover:bg-red-600/90 backdrop-blur-sm text-white rounded-lg shadow-lg transition-all duration-200 flex items-center gap-2 text-sm';
-            exitBtn.innerHTML = '<i class="fas fa-times"></i><span class="hidden sm:inline">退出全屏</span>';
+            exitBtn.className = 'fixed top-4 right-4 z-[10000] px-3 py-2 bg-red-500/90 hover:bg-red-600/90 backdrop-blur-sm text-white rounded-lg shadow-lg transition-all duration-300 flex items-center gap-2 text-sm opacity-0 hover:opacity-100 translate-y-[-10px] hover:translate-y-0';
+            exitBtn.innerHTML = '<i class="fas fa-times"></i><span class="hidden sm:inline">退出全屏 (ESC)</span>';
             exitBtn.onclick = toggleFullscreen;
             
+            // 添加鼠标悬停区域检测
+            const hoverArea = document.createElement('div');
+            hoverArea.id = 'fullscreenExitHoverArea';
+            hoverArea.className = 'fixed top-0 right-0 w-32 h-32 z-[9999]';
+            hoverArea.style.pointerEvents = 'auto';
+            hoverArea.style.background = 'transparent';
+            
+            // 鼠标进入悬停区域时显示按钮
+            hoverArea.addEventListener('mouseenter', () => {
+                exitBtn.classList.remove('opacity-0', 'translate-y-[-10px]');
+                exitBtn.classList.add('opacity-100', 'translate-y-0');
+            });
+            
+            // 鼠标离开悬停区域时隐藏按钮
+            hoverArea.addEventListener('mouseleave', () => {
+                setTimeout(() => {
+                    if (!exitBtn.matches(':hover') && !hoverArea.matches(':hover')) {
+                        exitBtn.classList.add('opacity-0', 'translate-y-[-10px]');
+                        exitBtn.classList.remove('opacity-100', 'translate-y-0');
+                    }
+                }, 100);
+            });
+            
+            // 鼠标离开按钮区域时隐藏
+            exitBtn.addEventListener('mouseleave', () => {
+                setTimeout(() => {
+                    if (!exitBtn.matches(':hover')) {
+                        exitBtn.classList.add('opacity-0', 'translate-y-[-10px]');
+                        exitBtn.classList.remove('opacity-100', 'translate-y-0');
+                    }
+                }, 100);
+            });
+            
+            document.body.appendChild(hoverArea);
             document.body.appendChild(exitBtn);
         }
         
         // 移除全屏退出按钮
         function removeFullscreenExitButton() {
             const exitBtn = document.getElementById('fullscreenExitBtn');
+            const hoverArea = document.getElementById('fullscreenExitHoverArea');
             if (exitBtn) {
                 exitBtn.remove();
+            }
+            if (hoverArea) {
+                hoverArea.remove();
             }
         }
         
@@ -793,6 +847,12 @@ permalink: /markdown-preview/
                 
                 // F11: 切换全屏
                 if (e.key === 'F11') {
+                    e.preventDefault();
+                    toggleFullscreen();
+                }
+                
+                // ESC: 退出全屏
+                if (e.key === 'Escape' && isFullscreen) {
                     e.preventDefault();
                     toggleFullscreen();
                 }
@@ -1237,9 +1297,15 @@ permalink: /markdown-preview/
                     themeVariables: isDark ? {
                         // 深色模式 - 使用高对比度配色
                         primaryColor: '#1e293b',
-                        primaryTextColor: '#f1f5f9',
-                        primaryBorderColor: '#64748b',
-                        lineColor: '#cbd5e1',
+                        primaryTextColor: '#f8fafc',
+                        primaryBorderColor: '#60a5fa',
+                        
+                        // 关键：线条和连接线颜色 - 使用明亮的蓝色
+                        lineColor: '#60a5fa',
+                        edgeColor: '#60a5fa',
+                        
+                        // 关键：箭头颜色 - 使用明亮的紫色
+                        arrowheadColor: '#c084fc',
                         
                         // 节点背景 - 使用更深的背景色以提高对比度
                         mainBkg: '#334155',
@@ -1247,22 +1313,20 @@ permalink: /markdown-preview/
                         tertiaryColor: '#1e293b',
                         
                         // 文字颜色 - 使用更亮的文字
-                        textColor: '#f1f5f9',
-                        nodeTextColor: '#f1f5f9',
+                        textColor: '#f8fafc',
+                        nodeTextColor: '#f8fafc',
                         
                         // 背景
-                        background: '#0f172a',
+                        background: 'transparent',
                         
                         // 子图配置
                         clusterBkg: '#1e293b',
-                        clusterBorder: '#64748b',
+                        clusterBorder: '#8b5cf6',
                         
-                        // 边框和标签
-                        edgeLabelBackground: '#334155',
-                        
-                        // 箭头和连接线配置
-                        arrowheadColor: '#e2e8f0',
-                        edgeColor: '#cbd5e1',
+                        // 边框和标签 - 关键：箭头描述文字背景和颜色
+                        edgeLabelBackground: '#0f172a',
+                        labelBackground: '#0f172a',
+                        labelTextColor: '#fbbf24',
                         
                         // 特殊节点颜色 - 使用更明显的对比色
                         fillType0: '#334155',
@@ -1282,15 +1346,36 @@ permalink: /markdown-preview/
                         // 决策节点颜色
                         altBackground: '#475569',
                         
-                        // 标签文字背景
-                        labelBackground: '#334155',
-                        labelTextColor: '#f1f5f9'
+                        // 关键：确保所有文字标签都清晰可见
+                        edgeLabelColor: '#fbbf24',
+                        relationLabelColor: '#fbbf24',
+                        
+                        // 序列图特定配置
+                        actorBkg: '#334155',
+                        actorBorder: '#60a5fa',
+                        actorTextColor: '#f8fafc',
+                        actorLineColor: '#60a5fa',
+                        signalColor: '#60a5fa',
+                        signalTextColor: '#fbbf24',
+                        
+                        // 甘特图配置
+                        gridColor: '#475569',
+                        section0: '#334155',
+                        section1: '#475569',
+                        section2: '#64748b',
+                        section3: '#1e293b'
                     } : {
                         // 浅色模式 - 优化配色
                         primaryColor: '#e5e7eb',
                         primaryTextColor: '#111827',
-                        primaryBorderColor: '#9ca3af',
-                        lineColor: '#4b5563',
+                        primaryBorderColor: '#2563eb',
+                        
+                        // 关键：线条和连接线颜色 - 使用深蓝色
+                        lineColor: '#2563eb',
+                        edgeColor: '#2563eb',
+                        
+                        // 关键：箭头颜色 - 使用深紫色
+                        arrowheadColor: '#7c3aed',
                         
                         mainBkg: '#ffffff',
                         secondBkg: '#f9fafb',
@@ -1299,16 +1384,15 @@ permalink: /markdown-preview/
                         textColor: '#111827',
                         nodeTextColor: '#111827',
                         
-                        background: '#ffffff',
+                        background: 'transparent',
                         
                         clusterBkg: '#f9fafb',
-                        clusterBorder: '#9ca3af',
+                        clusterBorder: '#7c3aed',
                         
+                        // 关键：箭头描述文字背景和颜色
                         edgeLabelBackground: '#ffffff',
-                        
-                        // 箭头和连接线配置
-                        arrowheadColor: '#374151',
-                        edgeColor: '#4b5563',
+                        labelBackground: '#ffffff',
+                        labelTextColor: '#dc2626',
                         
                         // 特殊节点颜色
                         fillType0: '#f3f4f6',
@@ -1328,9 +1412,24 @@ permalink: /markdown-preview/
                         // 决策节点颜色
                         altBackground: '#e5e7eb',
                         
-                        // 标签文字背景
-                        labelBackground: '#ffffff',
-                        labelTextColor: '#111827'
+                        // 关键：确保所有文字标签都清晰可见
+                        edgeLabelColor: '#dc2626',
+                        relationLabelColor: '#dc2626',
+                        
+                        // 序列图特定配置
+                        actorBkg: '#f3f4f6',
+                        actorBorder: '#2563eb',
+                        actorTextColor: '#111827',
+                        actorLineColor: '#2563eb',
+                        signalColor: '#2563eb',
+                        signalTextColor: '#dc2626',
+                        
+                        // 甘特图配置
+                        gridColor: '#d1d5db',
+                        section0: '#f3f4f6',
+                        section1: '#e5e7eb',
+                        section2: '#d1d5db',
+                        section3: '#f9fafb'
                     }
                 });
             }
@@ -1510,48 +1609,116 @@ permalink: /markdown-preview/
         
         /* 深色模式样式 */
         .dark .prose code {
-            color: rgb(248, 113, 113);
-            background-color: rgba(248, 113, 113, 0.12);
-            border: 1px solid rgba(248, 113, 113, 0.25);
-            border-radius: 0.375rem;
-            padding: 0.125rem 0.375rem;
+            color: #f97316;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.6) 100%);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 0.5rem;
+            padding: 0.25rem 0.5rem;
             font-weight: 500;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
         }
         .dark .prose pre {
-            background: linear-gradient(135deg, rgba(75, 85, 99, 0.15) 0%, rgba(75, 85, 99, 0.25) 100%);
-            border: 1px solid rgba(75, 85, 99, 0.35);
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%);
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            border-radius: 1rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(16px);
+            position: relative;
+            overflow: hidden;
+        }
+        .dark .prose pre::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.5), transparent);
         }
         .dark .prose pre code {
             background: transparent;
             border: none;
             padding: 0;
             box-shadow: none;
+            color: #e2e8f0;
         }
         .dark .prose blockquote {
-            border-left-color: rgb(96, 165, 250);
-            background: rgba(96, 165, 250, 0.05);
+            border-left: 4px solid #8b5cf6;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(168, 85, 247, 0.1) 100%);
+            color: #e2e8f0;
+            border-radius: 0 0.75rem 0.75rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            position: relative;
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .dark .prose blockquote::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #8b5cf6, #a855f7, #c084fc);
+            border-radius: 2px;
         }
         .dark .prose a {
-            color: rgb(96, 165, 250);
+            color: #60a5fa;
+            text-decoration: none;
+            border-bottom: 2px solid rgba(96, 165, 250, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
         }
         .dark .prose a:hover {
-            color: rgb(147, 197, 253);
-            border-bottom-color: rgb(96, 165, 250);
+            color: #93c5fd;
+            border-bottom-color: #93c5fd;
+            text-shadow: 0 0 12px rgba(96, 165, 250, 0.6);
+            transform: translateY(-1px);
         }
-        .dark .prose th {
-            background: rgba(75, 85, 99, 0.2);
+        .dark .prose a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #60a5fa, #93c5fd);
+            transition: width 0.3s ease;
         }
-        .dark .prose tr:hover {
-            background: rgba(75, 85, 99, 0.1);
+        .dark .prose a:hover::after {
+            width: 100%;
         }
         .dark .prose table {
-            border-color: rgba(75, 85, 99, 0.3);
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.6) 100%);
+        }
+        .dark .prose th {
+            background: linear-gradient(135deg, rgba(51, 65, 85, 0.8) 0%, rgba(71, 85, 105, 0.6) 100%);
+            color: #f1f5f9;
+            border-bottom: 2px solid rgba(139, 92, 246, 0.4);
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            padding: 0.75rem 1rem;
+        }
+        .dark .prose td {
+            border-bottom: 1px solid rgba(100, 116, 139, 0.2);
+            background: rgba(15, 23, 42, 0.4);
+            color: #e2e8f0;
+            padding: 0.75rem 1rem;
+        }
+        .dark .prose tr:hover td {
+            background: rgba(139, 92, 246, 0.1);
+            transform: scale(1.01);
+            transition: all 0.2s ease;
         }
         .dark .prose th, .dark .prose td {
-            border-bottom-color: rgba(75, 85, 99, 0.2);
+            border-bottom-color: rgba(100, 116, 139, 0.2);
         }
         
         /* Mermaid 图表样式 */
@@ -1568,60 +1735,266 @@ permalink: /markdown-preview/
             border-color: rgba(75, 85, 99, 0.2);
         }
         
+        /* 深色模式下 Mermaid 图表的线条和箭头优化 - 重点关注！！！ */
+        .dark .mermaid .edgePath path,
+        .dark .mermaid .flowchart-link {
+            stroke: #60a5fa !important;
+            stroke-width: 2.5px !important;
+            filter: drop-shadow(0 0 3px rgba(96, 165, 250, 0.5));
+        }
+        
+        .dark .mermaid .arrowheadPath,
+        .dark .mermaid .arrowhead,
+        .dark .mermaid marker path {
+            fill: #c084fc !important;
+            stroke: #c084fc !important;
+            filter: drop-shadow(0 0 2px rgba(192, 132, 252, 0.7));
+        }
+        
+        .dark .mermaid .edgeLabel,
+        .dark .mermaid .edgeLabel rect {
+            fill: #0f172a !important;
+            stroke: #fbbf24 !important;
+            stroke-width: 1px !important;
+        }
+        
+        .dark .mermaid .edgeLabel text,
+        .dark .mermaid .edgeLabel span,
+        .dark .mermaid .edgeLabel foreignObject div {
+            fill: #fbbf24 !important;
+            color: #fbbf24 !important;
+            font-weight: 600 !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+        }
+        
+        /* 序列图箭头和线条优化 */
+        .dark .mermaid .messageLine0,
+        .dark .mermaid .messageLine1,
+        .dark .mermaid .loopLine {
+            stroke: #60a5fa !important;
+            stroke-width: 2.5px !important;
+            filter: drop-shadow(0 0 3px rgba(96, 165, 250, 0.5));
+        }
+        
+        .dark .mermaid .messageText {
+            fill: #fbbf24 !important;
+            font-weight: 600 !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+        }
+        
+        /* 流程图节点边框优化 */
+        .dark .mermaid .node rect,
+        .dark .mermaid .node circle,
+        .dark .mermaid .node polygon,
+        .dark .mermaid .node ellipse {
+            stroke: #60a5fa !important;
+            stroke-width: 2px !important;
+            filter: drop-shadow(0 0 4px rgba(96, 165, 250, 0.3));
+        }
+        
+        /* 关系图和ER图线条优化 */
+        .dark .mermaid .relation,
+        .dark .mermaid .relationshipLine {
+            stroke: #60a5fa !important;
+            stroke-width: 2.5px !important;
+            filter: drop-shadow(0 0 3px rgba(96, 165, 250, 0.5));
+        }
+        
+        /* 甘特图网格线和任务条优化 */
+        .dark .mermaid .grid .tick line {
+            stroke: #475569 !important;
+            stroke-width: 1px !important;
+        }
+        
+        /* 状态图转换线条优化 */
+        .dark .mermaid .transition {
+            stroke: #60a5fa !important;
+            stroke-width: 2.5px !important;
+            filter: drop-shadow(0 0 3px rgba(96, 165, 250, 0.5));
+        }
+        
+        /* 类图关系线条优化 */
+        .dark .mermaid .classGroup line,
+        .dark .mermaid .relation line {
+            stroke: #60a5fa !important;
+            stroke-width: 2px !important;
+        }
+        
+        /* 确保所有文本标签都清晰可见 */
+        .dark .mermaid text {
+            fill: #f8fafc !important;
+            font-weight: 500 !important;
+        }
+        
+        .dark .mermaid .label text,
+        .dark .mermaid .labelText {
+            fill: #fbbf24 !important;
+            font-weight: 600 !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+        }
+        
+        /* 浅色模式下 Mermaid 图表的线条和箭头优化 - 重点关注！！！ */
+        .mermaid .edgePath path,
+        .mermaid .flowchart-link {
+            stroke: #2563eb !important;
+            stroke-width: 2.5px !important;
+        }
+        
+        .mermaid .arrowheadPath,
+        .mermaid .arrowhead,
+        .mermaid marker path {
+            fill: #7c3aed !important;
+            stroke: #7c3aed !important;
+        }
+        
+        .mermaid .edgeLabel,
+        .mermaid .edgeLabel rect {
+            fill: #ffffff !important;
+            stroke: #dc2626 !important;
+            stroke-width: 1px !important;
+        }
+        
+        .mermaid .edgeLabel text,
+        .mermaid .edgeLabel span,
+        .mermaid .edgeLabel foreignObject div {
+            fill: #dc2626 !important;
+            color: #dc2626 !important;
+            font-weight: 600 !important;
+        }
+        
+        /* 序列图箭头和线条优化 */
+        .mermaid .messageLine0,
+        .mermaid .messageLine1,
+        .mermaid .loopLine {
+            stroke: #2563eb !important;
+            stroke-width: 2.5px !important;
+        }
+        
+        .mermaid .messageText {
+            fill: #dc2626 !important;
+            font-weight: 600 !important;
+        }
+        
+        /* 流程图节点边框优化 */
+        .mermaid .node rect,
+        .mermaid .node circle,
+        .mermaid .node polygon,
+        .mermaid .node ellipse {
+            stroke: #2563eb !important;
+            stroke-width: 2px !important;
+        }
+        
+        /* 关系图和ER图线条优化 */
+        .mermaid .relation,
+        .mermaid .relationshipLine {
+            stroke: #2563eb !important;
+            stroke-width: 2.5px !important;
+        }
+        
+        /* 甘特图网格线和任务条优化 */
+        .mermaid .grid .tick line {
+            stroke: #d1d5db !important;
+            stroke-width: 1px !important;
+        }
+        
+        /* 状态图转换线条优化 */
+        .mermaid .transition {
+            stroke: #2563eb !important;
+            stroke-width: 2.5px !important;
+        }
+        
+        /* 类图关系线条优化 */
+        .mermaid .classGroup line,
+        .mermaid .relation line {
+            stroke: #2563eb !important;
+            stroke-width: 2px !important;
+        }
+        
+        /* 确保所有文本标签都清晰可见 */
+        .mermaid text {
+            fill: #111827 !important;
+            font-weight: 500 !important;
+        }
+        
+        .mermaid .label text,
+        .mermaid .labelText {
+            fill: #dc2626 !important;
+            font-weight: 600 !important;
+        }
+        
         /* 代码高亮样式 */
         .hljs {
             background: transparent !important;
             padding: 0 !important;
         }
         
-        /* 深色模式下的语法高亮优化 */
+        /* 深色模式下的语法高亮优化 - 现代化配色 */
         .dark .hljs {
-            color: #e6edf3 !important;
+            color: #e2e8f0 !important;
+            background: transparent !important;
         }
         .dark .hljs-keyword {
-            color: #ff7b72 !important;
+            color: #c084fc !important;
+            font-weight: 600;
         }
         .dark .hljs-string {
-            color: #a5d6ff !important;
+            color: #34d399 !important;
         }
         .dark .hljs-comment {
-            color: #8b949e !important;
+            color: #64748b !important;
+            font-style: italic;
         }
         .dark .hljs-number {
-            color: #79c0ff !important;
+            color: #fbbf24 !important;
         }
         .dark .hljs-function {
-            color: #d2a8ff !important;
+            color: #60a5fa !important;
+            font-weight: 500;
         }
         .dark .hljs-variable {
-            color: #ffa657 !important;
+            color: #f472b6 !important;
         }
         .dark .hljs-type {
-            color: #7ee787 !important;
+            color: #10b981 !important;
+            font-weight: 500;
         }
         .dark .hljs-operator {
-            color: #ff7b72 !important;
+            color: #f97316 !important;
         }
         .dark .hljs-built_in {
-            color: #79c0ff !important;
+            color: #06b6d4 !important;
         }
         .dark .hljs-attr {
-            color: #79c0ff !important;
+            color: #8b5cf6 !important;
         }
         .dark .hljs-tag {
-            color: #7ee787 !important;
+            color: #ef4444 !important;
         }
         .dark .hljs-name {
-            color: #7ee787 !important;
+            color: #ef4444 !important;
+            font-weight: 600;
         }
         .dark .hljs-selector-tag {
-            color: #7ee787 !important;
+            color: #ef4444 !important;
         }
         .dark .hljs-selector-class {
-            color: #ffa657 !important;
+            color: #fbbf24 !important;
         }
         .dark .hljs-selector-id {
-            color: #79c0ff !important;
+            color: #06b6d4 !important;
+        }
+        .dark .hljs-title {
+            color: #60a5fa !important;
+            font-weight: 600;
+        }
+        .dark .hljs-literal {
+            color: #34d399 !important;
+        }
+        .dark .hljs-meta {
+            color: #64748b !important;
+        }
+        .dark .hljs-doctag {
+            color: #8b5cf6 !important;
         }
         
         /* 按钮增强样式 */
@@ -1629,13 +2002,17 @@ permalink: /markdown-preview/
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
+            transform: translateZ(0);
         }
         .btn:hover, button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+        }
+        .dark .btn:hover, .dark button:hover {
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
         }
         .btn:active, button:active {
-            transform: translateY(0);
+            transform: translateY(-1px) scale(0.98);
             transition: all 0.1s ease;
         }
         .btn::before, button::before {
@@ -1645,8 +2022,8 @@ permalink: /markdown-preview/
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             pointer-events: none;
         }
         .btn:hover::before, button:hover::before {
@@ -1657,6 +2034,18 @@ permalink: /markdown-preview/
         @keyframes shimmer {
             0% { transform: translateX(-100%); }
             100% { transform: translateX(100%); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(96, 165, 250, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(96, 165, 250, 0.6), 0 0 30px rgba(139, 92, 246, 0.4); }
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
         .loading-shimmer {
             position: relative;
@@ -1669,17 +2058,51 @@ permalink: /markdown-preview/
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            animation: shimmer 1.5s infinite;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            border-top-color: #60a5fa;
+            border-right-color: #8b5cf6;
+            animation: spin 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+            box-shadow: 0 0 10px rgba(96, 165, 250, 0.3);
+        }
+        .dark .loading {
+            border-color: rgba(255, 255, 255, 0.1);
+            border-top-color: #60a5fa;
+            border-right-color: #c084fc;
+            box-shadow: 0 0 15px rgba(192, 132, 252, 0.4);
         }
         
         /* 脉冲动画 */
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 0.9; transform: scale(1.1); }
         }
         .animate-pulse {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        .pulse-slow {
+            animation: pulse-slow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        .float {
+            animation: float 6s ease-in-out infinite;
+        }
+        .glow {
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        .scale-hover:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         /* 响应式字体大小 */
