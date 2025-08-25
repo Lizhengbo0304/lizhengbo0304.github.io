@@ -208,11 +208,11 @@ permalink: /markdown-preview/
 
         <!-- 主内容区 - 响应式设计 -->
         <main class="flex-grow container mx-auto px-4 lg:px-6 py-6 animate-fade-in">
-            <div class="h-full max-h-[calc(100vh-140px)] bg-white/70 dark:bg-slate-900/80 backdrop-blur-sm rounded-2xl shadow-soft-lg border border-primary-200/50 dark:border-slate-700/50 overflow-hidden hover:shadow-glow dark:hover:shadow-purple-500/20 transition-all duration-300">
+            <div class="h-full max-h-[calc(100vh-140px)] overflow-hidden bg-white/70 dark:bg-slate-900/80 backdrop-blur-sm rounded-2xl shadow-soft-lg border border-primary-200/50 dark:border-slate-700/50 hover:shadow-glow dark:hover:shadow-purple-500/20 transition-all duration-300">
                 <!-- 桌面端布局 -->
                 <div class="hidden lg:flex h-full">
                     <!-- 编辑器区域 -->
-                    <div id="editorPanel" class="flex flex-col group" style="width: 50%;">
+                    <div id="editorPanel" class="flex flex-col group h-full" style="width: 50%;">
                         <div class="bg-gradient-to-r from-primary-50 to-primary-100/50 dark:from-slate-800/80 dark:to-slate-700/50 px-6 py-4 border-b border-primary-200/50 dark:border-slate-600/50">
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center space-x-3">
@@ -243,7 +243,7 @@ permalink: /markdown-preview/
                         <div class="flex-1 relative">
                             <textarea 
                                 id="markdownInput" 
-                                class="w-full h-full p-6 bg-transparent text-primary-900 dark:text-primary-100 border-none outline-none resize-none font-mono text-sm leading-relaxed placeholder-primary-400 dark:placeholder-primary-500 transition-all duration-200"
+                                class="w-full h-full p-6 bg-transparent text-primary-900 dark:text-primary-100 border-none outline-none resize-none font-mono text-sm leading-relaxed placeholder-primary-400 dark:placeholder-primary-500 transition-all duration-200 overflow-auto custom-scrollbar"
                                 placeholder="# 开始编写 Markdown\n\n在这里输入您的内容...\n\n## 支持功能\n- 📝 实时预览\n- 🎨 语法高亮\n- 📊 Mermaid 图表\n- 🌙 深色模式\n\n### 示例图表\n```mermaid\ngraph TD\n    A[开始] --> B{判断条件}\n    B -->|是| C[执行操作]\n    B -->|否| D[结束]\n    C --> D\n```"
                             ></textarea>
                             <!-- 编辑器增强功能 -->
@@ -268,7 +268,7 @@ permalink: /markdown-preview/
                     </div>
                     
                     <!-- 预览区域 -->
-                    <div id="previewPanel" class="flex flex-col group" style="width: 50%;">
+                    <div id="previewPanel" class="flex flex-col group h-full" style="width: 50%;">
                         <div class="bg-gradient-to-r from-primary-100/50 to-primary-50 dark:from-primary-700/50 dark:to-primary-800 px-6 py-4 border-b border-primary-200/50 dark:border-primary-700/50">
                             <div class="flex items-center justify-between">
                                 <h3 class="font-semibold text-primary-800 dark:text-primary-200 flex items-center">
@@ -310,7 +310,7 @@ permalink: /markdown-preview/
                     <div id="mobileEditor" class="flex-1 relative">
                         <textarea 
                             id="markdownInputMobile" 
-                            class="w-full h-full p-4 bg-transparent text-primary-900 dark:text-primary-100 border-none outline-none resize-none font-mono text-sm leading-relaxed placeholder-primary-400 dark:placeholder-primary-500"
+                            class="w-full h-full p-4 bg-transparent text-primary-900 dark:text-primary-100 border-none outline-none resize-none font-mono text-sm leading-relaxed placeholder-primary-400 dark:placeholder-primary-500 overflow-auto custom-scrollbar"
                             placeholder="# 开始编写 Markdown\n\n在移动设备上编写您的内容...\n\n支持所有桌面功能：\n- 实时预览\n- 语法高亮\n- 图表支持"
                         ></textarea>
                         <!-- 移动端工具栏 -->
