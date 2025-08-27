@@ -208,7 +208,7 @@ permalink: /markdown-preview/
 
         <!-- 主内容区 - 响应式设计 -->
         <main class="flex-grow container mx-auto px-4 lg:px-6 py-6 animate-fade-in">
-            <div class="h-full max-h-[calc(100vh-140px)] overflow-hidden bg-white/70 dark:bg-slate-900/80 backdrop-blur-sm rounded-2xl shadow-soft-lg border border-primary-200/50 dark:border-slate-700/50 hover:shadow-glow dark:hover:shadow-purple-500/20 transition-all duration-300">
+            <div class="main-container h-full min-h-[600px] overflow-visible bg-white/70 dark:bg-slate-900/80 backdrop-blur-sm rounded-2xl shadow-soft-lg border border-primary-200/50 dark:border-slate-700/50 hover:shadow-glow dark:hover:shadow-purple-500/20 transition-all duration-300" style="height: calc(100vh - 120px); min-height: 600px;">
                 <!-- 桌面端布局 -->
                 <div class="hidden lg:flex h-full">
                     <!-- 编辑器区域 -->
@@ -243,7 +243,8 @@ permalink: /markdown-preview/
                         <div class="flex-1 relative">
                             <textarea 
                                 id="markdownInput" 
-                                class="w-full h-full p-6 bg-transparent text-primary-900 dark:text-primary-100 border-none outline-none resize-none font-mono text-sm leading-relaxed placeholder-primary-400 dark:placeholder-primary-500 transition-all duration-200 overflow-auto custom-scrollbar"
+                                class="w-full h-full p-6 bg-transparent text-primary-900 dark:text-primary-100 border-none outline-none resize-none font-mono text-sm leading-relaxed placeholder-primary-400 dark:placeholder-primary-500 transition-all duration-200 custom-scrollbar"
+                                style="overflow-y: auto; overflow-x: hidden;"
                                 placeholder="# 开始编写 Markdown\n\n在这里输入您的内容...\n\n## 支持功能\n- 📝 实时预览\n- 🎨 语法高亮\n- 📊 Mermaid 图表\n- 🌙 深色模式\n\n### 示例图表\n```mermaid\ngraph TD\n    A[开始] --> B{判断条件}\n    B -->|是| C[执行操作]\n    B -->|否| D[结束]\n    C --> D\n```"
                             ></textarea>
                             <!-- 编辑器增强功能 -->
@@ -285,7 +286,7 @@ permalink: /markdown-preview/
                                 </div>
                             </div>
                         </div>
-                        <div id="markdownPreview" class="flex-1 p-6 overflow-auto prose prose-primary dark:prose-invert max-w-none custom-scrollbar">
+                        <div id="markdownPreview" class="flex-1 p-6 prose prose-primary dark:prose-invert max-w-none custom-scrollbar" style="overflow-y: auto; overflow-x: hidden;">
                             <div class="text-center py-12 animate-pulse">
                                 <i class="fas fa-file-alt text-4xl text-primary-300 dark:text-primary-600 mb-4"></i>
                                 <p class="text-primary-500 dark:text-primary-400 italic">开始编写，预览将在这里显示...</p>
@@ -310,7 +311,8 @@ permalink: /markdown-preview/
                     <div id="mobileEditor" class="flex-1 relative">
                         <textarea 
                             id="markdownInputMobile" 
-                            class="w-full h-full p-4 bg-transparent text-primary-900 dark:text-primary-100 border-none outline-none resize-none font-mono text-sm leading-relaxed placeholder-primary-400 dark:placeholder-primary-500 overflow-auto custom-scrollbar"
+                            class="w-full h-full p-4 bg-transparent text-primary-900 dark:text-primary-100 border-none outline-none resize-none font-mono text-sm leading-relaxed placeholder-primary-400 dark:placeholder-primary-500 custom-scrollbar"
+                            style="overflow-y: auto; overflow-x: hidden;"
                             placeholder="# 开始编写 Markdown\n\n在移动设备上编写您的内容...\n\n支持所有桌面功能：\n- 实时预览\n- 语法高亮\n- 图表支持"
                         ></textarea>
                         <!-- 移动端工具栏 -->
@@ -336,7 +338,7 @@ permalink: /markdown-preview/
                     </div>
                     
                     <!-- 预览视图 -->
-                    <div id="mobilePreview" class="flex-1 p-4 overflow-auto prose prose-primary dark:prose-invert max-w-none custom-scrollbar hidden">
+                    <div id="mobilePreview" class="flex-1 p-4 prose prose-primary dark:prose-invert max-w-none custom-scrollbar hidden" style="overflow-y: auto; overflow-x: hidden;">
                         <div class="text-center py-12">
                             <i class="fas fa-file-alt text-4xl text-primary-300 dark:text-primary-600 mb-4"></i>
                             <p class="text-primary-500 dark:text-primary-400 italic">切换到编辑模式开始编写...</p>
@@ -2100,6 +2102,14 @@ permalink: /markdown-preview/
         .scale-hover:hover {
             transform: scale(1.05);
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* 响应式布局优化 */
+        @media (max-width: 1024px) {
+            .main-container {
+                height: calc(100vh - 100px) !important;
+                min-height: 500px !important;
+            }
         }
         
         /* 响应式字体大小 */
