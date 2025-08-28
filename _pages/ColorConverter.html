@@ -1,0 +1,468 @@
+---
+layout: normal
+title: 颜色转换工具
+permalink: /color-converter/
+---
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>颜色转换工具</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+        // 配置 Tailwind - Linear App 风格配色
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        // Linear App 风格配色
+                        primary: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        },
+                        accent: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        success: {
+                            50: '#f0fdf4',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                        },
+                        warning: {
+                            50: '#fffbeb',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        },
+                        danger: {
+                            50: '#fef2f2',
+                            500: '#ef4444',
+                            600: '#dc2626',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+                        'slide-up': 'slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                        'scale-in': 'scaleIn 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                        'bounce-subtle': 'bounceSubtle 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        scaleIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.95)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' },
+                        },
+                        bounceSubtle: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-2px)' },
+                        }
+                    },
+                    backdropBlur: {
+                        xs: '2px',
+                    },
+                    boxShadow: {
+                        'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)',
+                        'soft-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                        'glow': '0 0 20px rgba(59, 130, 246, 0.15)',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-primary-50 to-white dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 text-primary-900 dark:text-slate-50 transition-all duration-500 ease-out">
+    <!-- 背景装饰 -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <!-- 光模式装饰 -->
+        <div class="dark:hidden">
+            <div class="absolute -top-40 -right-40 w-80 h-80 bg-accent-200/20 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-accent-300/20 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+        </div>
+        <!-- 深色模式装饰 -->
+        <div class="hidden dark:block">
+            <div class="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-purple-500/10 to-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-tr from-cyan-500/10 to-emerald-500/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-gradient-to-r from-indigo-500/5 to-pink-500/5 rounded-full blur-3xl animate-pulse" style="animation-delay: 4s;"></div>
+            <!-- 星空效果 -->
+            <div class="absolute inset-0">
+                <div class="absolute top-1/4 left-1/4 w-1 h-1 bg-blue-400 rounded-full animate-pulse"></div>
+                <div class="absolute top-1/3 right-1/3 w-1 h-1 bg-purple-400 rounded-full animate-pulse" style="animation-delay: 1s;"></div>
+                <div class="absolute bottom-1/4 left-1/3 w-1 h-1 bg-cyan-400 rounded-full animate-pulse" style="animation-delay: 2s;"></div>
+                <div class="absolute bottom-1/3 right-1/4 w-1 h-1 bg-emerald-400 rounded-full animate-pulse" style="animation-delay: 3s;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="relative min-h-screen flex flex-col">
+        <!-- 顶栏 - Linear App 风格 -->
+        <header class="backdrop-blur-md bg-white/80 dark:bg-slate-900/90 border-b border-primary-200/50 dark:border-slate-700/50 shadow-soft animate-slide-up sticky top-0 z-50">
+            <div class="container mx-auto px-4 lg:px-6 py-4">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-accent-500 to-accent-600 rounded-xl flex items-center justify-center shadow-soft transform hover:scale-105 transition-transform duration-200">
+                            <i class="fas fa-palette text-white text-lg"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-xl lg:text-2xl font-bold bg-gradient-to-r from-primary-900 to-primary-700 dark:from-primary-100 dark:to-primary-300 bg-clip-text text-transparent">
+                                颜色转换工具
+                            </h1>
+                            <p class="text-xs text-primary-600 dark:text-primary-400 hidden sm:block">RGB ⇄ HEX · 透明度支持 · 实时预览</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-2 lg:space-x-3">
+                        <!-- 移动端菜单按钮 -->
+                        <button id="mobileMenuBtn" class="lg:hidden p-2 rounded-xl hover:bg-primary-100 dark:hover:bg-primary-700 transition-colors duration-200">
+                            <i class="fas fa-bars text-primary-600 dark:text-primary-400"></i>
+                        </button>
+                        
+                        <!-- 桌面端按钮组 -->
+                        <div class="hidden lg:flex items-center space-x-3">
+                            <a href="/" class="group px-4 py-2 bg-primary-50 hover:bg-primary-100 dark:bg-slate-700/70 dark:hover:bg-slate-600/70 text-primary-600 dark:text-slate-300 rounded-xl transition-all duration-200 transform hover:scale-105 hover:shadow-soft dark:hover:shadow-blue-500/20">
+                                <i class="fas fa-home mr-2 group-hover:scale-110 transition-transform duration-200"></i>
+                                <span class="text-sm font-medium">首页</span>
+                            </a>
+                            <a href="/tools/" class="group px-4 py-2 bg-warning-50 hover:bg-warning-100 dark:bg-orange-900/30 dark:hover:bg-orange-800/40 text-warning-600 dark:text-orange-400 rounded-xl transition-all duration-200 transform hover:scale-105 hover:shadow-soft dark:hover:shadow-orange-500/20">
+                                <i class="fas fa-tools mr-2 group-hover:scale-110 transition-transform duration-200"></i>
+                                <span class="text-sm font-medium">工具箱</span>
+                            </a>
+                        </div>
+                        
+                        <button id="themeToggle" class="group p-3 rounded-xl bg-primary-100 hover:bg-primary-200 dark:bg-slate-700 dark:hover:bg-slate-600 transition-all duration-200 transform hover:scale-105 hover:shadow-soft dark:hover:shadow-purple-500/30">
+                            <i class="fas fa-moon dark:hidden text-primary-600 group-hover:scale-110 transition-transform duration-200"></i>
+                            <i class="fas fa-sun hidden dark:block text-yellow-400 group-hover:scale-110 transition-transform duration-200"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 移动端菜单 -->
+                <div id="mobileMenu" class="lg:hidden mt-4 pb-4 border-t border-primary-200/50 dark:border-primary-700/50 hidden animate-slide-up">
+                    <div class="flex flex-col space-y-2 pt-4">
+                        <a href="/" class="flex items-center px-4 py-3 bg-primary-50 hover:bg-primary-100 dark:bg-primary-700 dark:hover:bg-primary-600 text-primary-600 dark:text-primary-400 rounded-xl transition-colors duration-200">
+                            <i class="fas fa-home mr-3"></i>
+                            <span class="font-medium">返回首页</span>
+                        </a>
+                        <a href="/tools/" class="flex items-center px-4 py-3 bg-warning-50 hover:bg-warning-100 dark:bg-warning-900/50 dark:hover:bg-warning-800/50 text-warning-600 dark:text-warning-400 rounded-xl transition-colors duration-200">
+                            <i class="fas fa-tools mr-3"></i>
+                            <span class="font-medium">工具箱</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 主内容区 -->
+        <main class="flex-1 container mx-auto px-4 lg:px-6 py-8">
+            <!-- 颜色转换器主体 -->
+            <div class="max-w-4xl mx-auto">
+                <!-- 转换器卡片 -->
+                <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-md rounded-2xl shadow-soft-lg border border-primary-200/50 dark:border-slate-700/50 p-6 lg:p-8 mb-8 animate-fade-in">
+                    <!-- 颜色预览区 -->
+                    <div class="mb-8">
+                        <h2 class="text-lg font-semibold text-primary-800 dark:text-primary-200 mb-4 flex items-center">
+                            <i class="fas fa-eye mr-2 text-accent-500"></i>
+                            颜色预览
+                        </h2>
+                        <div id="colorPreview" class="w-full h-32 rounded-xl border-2 border-primary-200 dark:border-slate-600 shadow-soft transition-all duration-300" style="background-color: #3b82f6;"></div>
+                    </div>
+
+                    <!-- 转换器输入区 -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                        <!-- RGB 输入 -->
+                        <div class="space-y-4">
+                            <h3 class="text-md font-semibold text-primary-800 dark:text-primary-200 flex items-center">
+                                <i class="fas fa-sliders-h mr-2 text-success-500"></i>
+                                RGB 颜色值
+                            </h3>
+                            <div class="space-y-3">
+                                <div>
+                                    <label class="block text-sm font-medium text-primary-700 dark:text-primary-300 mb-1">红色 (R)</label>
+                                    <input type="range" id="redSlider" min="0" max="255" value="59" class="w-full h-2 bg-primary-200 dark:bg-slate-600 rounded-lg appearance-none cursor-pointer slider-red">
+                                    <input type="number" id="redInput" min="0" max="255" value="59" class="mt-2 w-full px-3 py-2 bg-white dark:bg-slate-700 border border-primary-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all duration-200 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-inner-spin-button]:dark:bg-slate-600 [&::-webkit-outer-spin-button]:dark:bg-slate-600">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-primary-700 dark:text-primary-300 mb-1">绿色 (G)</label>
+                                    <input type="range" id="greenSlider" min="0" max="255" value="130" class="w-full h-2 bg-primary-200 dark:bg-slate-600 rounded-lg appearance-none cursor-pointer slider-green">
+                                    <input type="number" id="greenInput" min="0" max="255" value="130" class="mt-2 w-full px-3 py-2 bg-white dark:bg-slate-700 border border-primary-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all duration-200 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-inner-spin-button]:dark:bg-slate-600 [&::-webkit-outer-spin-button]:dark:bg-slate-600">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-primary-700 dark:text-primary-300 mb-1">蓝色 (B)</label>
+                                    <input type="range" id="blueSlider" min="0" max="255" value="246" class="w-full h-2 bg-primary-200 dark:bg-slate-600 rounded-lg appearance-none cursor-pointer slider-blue">
+                                    <input type="number" id="blueInput" min="0" max="255" value="246" class="mt-2 w-full px-3 py-2 bg-white dark:bg-slate-700 border border-primary-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all duration-200 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-inner-spin-button]:dark:bg-slate-600 [&::-webkit-outer-spin-button]:dark:bg-slate-600">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-primary-700 dark:text-primary-300 mb-1">透明度 (A)</label>
+                                    <input type="range" id="alphaSlider" min="0" max="100" value="100" class="w-full h-2 bg-primary-200 dark:bg-slate-600 rounded-lg appearance-none cursor-pointer slider-alpha">
+                                    <input type="number" id="alphaInput" min="0" max="100" value="100" class="mt-2 w-full px-3 py-2 bg-white dark:bg-slate-700 border border-primary-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all duration-200 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-inner-spin-button]:dark:bg-slate-600 [&::-webkit-outer-spin-button]:dark:bg-slate-600">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- HEX 输入 -->
+                        <div class="space-y-4">
+                            <h3 class="text-md font-semibold text-primary-800 dark:text-primary-200 flex items-center">
+                                <i class="fas fa-hashtag mr-2 text-warning-500"></i>
+                                十六进制颜色码
+                            </h3>
+                            <div class="space-y-3">
+                                <div>
+                                    <label class="block text-sm font-medium text-primary-700 dark:text-primary-300 mb-1">HEX 颜色码</label>
+                                    <input type="text" id="hexInput" value="#3b82f6" class="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-primary-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all duration-200 font-mono">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-primary-700 dark:text-primary-300 mb-1">RGBA 格式</label>
+                                    <input type="text" id="rgbaOutput" readonly class="w-full px-3 py-2 bg-primary-50 dark:bg-slate-600 border border-primary-300 dark:border-slate-600 rounded-lg font-mono text-primary-700 dark:text-primary-300 cursor-pointer hover:bg-primary-100 dark:hover:bg-slate-500 transition-colors duration-200" title="点击复制">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-primary-700 dark:text-primary-300 mb-1">AHEX 格式</label>
+                                    <input type="text" id="hexaOutput" readonly class="w-full px-3 py-2 bg-primary-50 dark:bg-slate-600 border border-primary-300 dark:border-slate-600 rounded-lg font-mono text-primary-700 dark:text-primary-300 cursor-pointer hover:bg-primary-100 dark:hover:bg-slate-500 transition-colors duration-200" title="点击复制">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 操作按钮 -->
+                    <div class="flex flex-wrap gap-3 justify-center">
+                        <button id="copyHexBtn" class="px-6 py-3 bg-accent-500 hover:bg-accent-600 text-white rounded-xl transition-all duration-200 transform hover:scale-105 hover:shadow-soft flex items-center">
+                            <i class="fas fa-copy mr-2"></i>
+                            复制 HEX
+                        </button>
+                        <button id="copyRgbaBtn" class="px-6 py-3 bg-success-500 hover:bg-success-600 text-white rounded-xl transition-all duration-200 transform hover:scale-105 hover:shadow-soft flex items-center">
+                            <i class="fas fa-copy mr-2"></i>
+                            复制 RGBA
+                        </button>
+                        <button id="randomColorBtn" class="px-6 py-3 bg-warning-500 hover:bg-warning-600 text-white rounded-xl transition-all duration-200 transform hover:scale-105 hover:shadow-soft flex items-center">
+                            <i class="fas fa-random mr-2"></i>
+                            随机颜色
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 透明度对应表 -->
+                <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-md rounded-2xl shadow-soft-lg border border-primary-200/50 dark:border-slate-700/50 p-6 lg:p-8 animate-fade-in">
+                    <h2 class="text-lg font-semibold text-primary-800 dark:text-primary-200 mb-6 flex items-center">
+                        <i class="fas fa-table mr-2 text-accent-500"></i>
+                        透明度与十六进制对应表
+                    </h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="border-b border-primary-200 dark:border-slate-600">
+                                    <th class="text-left py-3 px-4 font-semibold text-primary-800 dark:text-primary-200">透明度 (%)</th>
+                                    <th class="text-left py-3 px-4 font-semibold text-primary-800 dark:text-primary-200">十六进制值</th>
+                                    <th class="text-left py-3 px-4 font-semibold text-primary-800 dark:text-primary-200">透明度 (%)</th>
+                                    <th class="text-left py-3 px-4 font-semibold text-primary-800 dark:text-primary-200">十六进制值</th>
+                                </tr>
+                            </thead>
+                            <tbody id="alphaTable" class="text-primary-700 dark:text-primary-300">
+                                <!-- 透明度表格内容将通过 JavaScript 生成 -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // 主题切换功能
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        
+        // 检查本地存储的主题设置
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            html.classList.toggle('dark', savedTheme === 'dark');
+        } else {
+            // 默认跟随系统主题
+            html.classList.toggle('dark', window.matchMedia('(prefers-color-scheme: dark)').matches);
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+        });
+        
+        // 移动端菜单切换
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // 颜色转换功能
+        const redSlider = document.getElementById('redSlider');
+        const greenSlider = document.getElementById('greenSlider');
+        const blueSlider = document.getElementById('blueSlider');
+        const alphaSlider = document.getElementById('alphaSlider');
+        
+        const redInput = document.getElementById('redInput');
+        const greenInput = document.getElementById('greenInput');
+        const blueInput = document.getElementById('blueInput');
+        const alphaInput = document.getElementById('alphaInput');
+        
+        const hexInput = document.getElementById('hexInput');
+        const rgbaOutput = document.getElementById('rgbaOutput');
+        const hexaOutput = document.getElementById('hexaOutput');
+        const colorPreview = document.getElementById('colorPreview');
+        
+        // 同步滑块和输入框
+        function syncSliderAndInput(slider, input) {
+            slider.addEventListener('input', () => {
+                input.value = slider.value;
+                updateColor();
+            });
+            
+            input.addEventListener('input', () => {
+                const value = Math.max(0, Math.min(parseInt(input.value) || 0, parseInt(input.max)));
+                input.value = value;
+                slider.value = value;
+                updateColor();
+            });
+        }
+        
+        syncSliderAndInput(redSlider, redInput);
+        syncSliderAndInput(greenSlider, greenInput);
+        syncSliderAndInput(blueSlider, blueInput);
+        syncSliderAndInput(alphaSlider, alphaInput);
+        
+        // 更新颜色显示
+        function updateColor() {
+            const r = parseInt(redInput.value);
+            const g = parseInt(greenInput.value);
+            const b = parseInt(blueInput.value);
+            const a = parseInt(alphaInput.value) / 100;
+            
+            // 更新预览
+            colorPreview.style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${a})`;
+            
+            // 更新 HEX
+            const hex = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+            hexInput.value = hex;
+            
+            // 更新 RGBA
+            rgbaOutput.value = `rgba(${r}, ${g}, ${b}, ${a})`;
+            
+            // 更新 AHEX (透明度在前)
+            const alphaHex = Math.round(a * 255).toString(16).padStart(2, '0');
+            hexaOutput.value = `#${alphaHex}${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+        }
+        
+        // HEX 输入处理
+        hexInput.addEventListener('input', () => {
+            const hex = hexInput.value.replace('#', '');
+            if (hex.length === 6 && /^[0-9A-Fa-f]+$/.test(hex)) {
+                const r = parseInt(hex.substr(0, 2), 16);
+                const g = parseInt(hex.substr(2, 2), 16);
+                const b = parseInt(hex.substr(4, 2), 16);
+                
+                redInput.value = redSlider.value = r;
+                greenInput.value = greenSlider.value = g;
+                blueInput.value = blueSlider.value = b;
+                
+                updateColor();
+            }
+        });
+        
+        // 复制功能
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // 可以添加提示信息
+                console.log('已复制到剪贴板:', text);
+            });
+        }
+        
+        document.getElementById('copyHexBtn').addEventListener('click', () => {
+            copyToClipboard(hexInput.value);
+        });
+        
+        document.getElementById('copyRgbaBtn').addEventListener('click', () => {
+            copyToClipboard(rgbaOutput.value);
+        });
+        
+        // 为输出字段添加点击复制功能
+        hexInput.addEventListener('click', () => {
+            copyToClipboard(hexInput.value);
+        });
+        
+        rgbaOutput.addEventListener('click', () => {
+            copyToClipboard(rgbaOutput.value);
+        });
+        
+        hexaOutput.addEventListener('click', () => {
+            copyToClipboard(hexaOutput.value);
+        });
+        
+        // 随机颜色
+        document.getElementById('randomColorBtn').addEventListener('click', () => {
+            redInput.value = redSlider.value = Math.floor(Math.random() * 256);
+            greenInput.value = greenSlider.value = Math.floor(Math.random() * 256);
+            blueInput.value = blueSlider.value = Math.floor(Math.random() * 256);
+            alphaInput.value = alphaSlider.value = 100;
+            updateColor();
+        });
+        
+        // 生成透明度对应表
+        function generateAlphaTable() {
+            const table = document.getElementById('alphaTable');
+            const rows = [];
+            
+            for (let i = 0; i <= 100; i += 5) {
+                const alphaHex = Math.round((i / 100) * 255).toString(16).padStart(2, '0').toUpperCase();
+                rows.push({ percent: i, hex: alphaHex });
+            }
+            
+            // 分两列显示
+            for (let i = 0; i < rows.length; i += 2) {
+                const row = document.createElement('tr');
+                row.className = 'border-b border-primary-100 dark:border-slate-700 hover:bg-primary-50 dark:hover:bg-slate-700/50 transition-colors duration-200';
+                
+                const leftPercent = rows[i].percent;
+                const leftHex = rows[i].hex;
+                const rightPercent = rows[i + 1] ? rows[i + 1].percent : '';
+                const rightHex = rows[i + 1] ? rows[i + 1].hex : '';
+                
+                row.innerHTML = `
+                    <td class="py-2 px-4 font-mono">${leftPercent}%</td>
+                    <td class="py-2 px-4 font-mono text-accent-600 dark:text-accent-400">${leftHex}</td>
+                    <td class="py-2 px-4 font-mono">${rightPercent}</td>
+                    <td class="py-2 px-4 font-mono text-accent-600 dark:text-accent-400">${rightHex}</td>
+                `;
+                
+                table.appendChild(row);
+            }
+        }
+        
+        // 初始化
+        updateColor();
+        generateAlphaTable();
+    </script>
+</body>
+</html>
