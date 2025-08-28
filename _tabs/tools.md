@@ -110,14 +110,14 @@ order: 2
   transition: all 0.3s ease;
   border-radius: 15px;
   overflow: hidden;
-  background-color: var(--card-bg);
-  border: 1px solid var(--main-border-color);
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
 }
 
 .tool-card:hover {
   transform: translateY(-5px);
-  box-shadow: var(--card-shadow);
-  background-color: var(--card-hovor-bg);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  background-color: #f8f9fa;
 }
 
 .tool-icon {
@@ -134,7 +134,40 @@ order: 2
 
 .coming-soon:hover {
   transform: none;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* 深色模式支持 */
+@media (prefers-color-scheme: dark) {
+  .tool-card {
+    background-color: #1e1e1e;
+    border-color: #495057;
+    color: #ffffff;
+  }
+  
+  .tool-card:hover {
+    background-color: #2d3748;
+    box-shadow: 0 0.5rem 1rem rgba(255, 255, 255, 0.1);
+  }
+  
+  .text-muted {
+    color: #adb5bd !important;
+  }
+}
+
+[data-bs-theme="dark"] .tool-card {
+  background-color: #1e1e1e;
+  border-color: #495057;
+  color: #ffffff;
+}
+
+[data-bs-theme="dark"] .tool-card:hover {
+  background-color: #2d3748;
+  box-shadow: 0 0.5rem 1rem rgba(255, 255, 255, 0.1);
+}
+
+[data-bs-theme="dark"] .text-muted {
+  color: #adb5bd !important;
 }
 
 /* 响应式优化 */
