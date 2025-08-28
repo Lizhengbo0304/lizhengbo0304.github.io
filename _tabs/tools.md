@@ -106,89 +106,125 @@ order: 2
 </div>
 
 <style>
-.tool-card {
-  transition: all 0.3s ease;
-  border-radius: 15px;
-  overflow: hidden;
-  background-color: #ffffff;
-  border: 1px solid #dee2e6;
+/* 使用更高特异性的选择器和!important来确保样式优先级 */
+.container-fluid .row .col-12 .card.tool-card,
+.container-fluid .card.tool-card {
+  transition: all 0.3s ease !important;
+  border-radius: 15px !important;
+  overflow: hidden !important;
+  background-color: #ffffff !important;
+  border: 1px solid #dee2e6 !important;
 }
 
-.tool-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-  background-color: #f8f9fa;
+.container-fluid .row .col-12 .card.tool-card:hover,
+.container-fluid .card.tool-card:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  background-color: #f8f9fa !important;
 }
 
-.tool-icon {
-  transition: transform 0.3s ease;
+.container-fluid .tool-icon {
+  transition: transform 0.3s ease !important;
 }
 
-.tool-card:hover .tool-icon {
-  transform: scale(1.1);
+.container-fluid .card.tool-card:hover .tool-icon {
+  transform: scale(1.1) !important;
 }
 
-.coming-soon {
-  opacity: 0.7;
+.container-fluid .card.tool-card.coming-soon {
+  opacity: 0.7 !important;
 }
 
-.coming-soon:hover {
-  transform: none;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+.container-fluid .card.tool-card.coming-soon:hover {
+  transform: none !important;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
 }
 
-/* 深色模式支持 */
+/* 按钮样式强化 */
+.container-fluid .card.tool-card .btn {
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+}
+
+.container-fluid .card.tool-card .btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* 图标颜色强化 */
+.container-fluid .card.tool-card .text-primary {
+  color: #0d6efd !important;
+}
+
+.container-fluid .card.tool-card .text-success {
+  color: #198754 !important;
+}
+
+.container-fluid .card.tool-card .text-info {
+  color: #0dcaf0 !important;
+}
+
+.container-fluid .card.tool-card .text-secondary {
+  color: #6c757d !important;
+}
+
+/* 深色模式支持 - 使用更高特异性 */
 @media (prefers-color-scheme: dark) {
-  .tool-card {
-    background-color: #1e1e1e;
-    border-color: #495057;
-    color: #ffffff;
+  .container-fluid .row .col-12 .card.tool-card,
+  .container-fluid .card.tool-card {
+    background-color: #1e1e1e !important;
+    border-color: #495057 !important;
+    color: #ffffff !important;
   }
   
-  .tool-card:hover {
-    background-color: #2d3748;
-    box-shadow: 0 0.5rem 1rem rgba(255, 255, 255, 0.1);
+  .container-fluid .row .col-12 .card.tool-card:hover,
+  .container-fluid .card.tool-card:hover {
+    background-color: #2d3748 !important;
+    box-shadow: 0 0.5rem 1rem rgba(255, 255, 255, 0.1) !important;
   }
   
-  .text-muted {
+  .container-fluid .card.tool-card .text-muted {
     color: #adb5bd !important;
   }
 }
 
-[data-bs-theme="dark"] .tool-card {
-  background-color: #1e1e1e;
-  border-color: #495057;
-  color: #ffffff;
+[data-bs-theme="dark"] .container-fluid .row .col-12 .card.tool-card,
+[data-bs-theme="dark"] .container-fluid .card.tool-card {
+  background-color: #1e1e1e !important;
+  border-color: #495057 !important;
+  color: #ffffff !important;
 }
 
-[data-bs-theme="dark"] .tool-card:hover {
-  background-color: #2d3748;
-  box-shadow: 0 0.5rem 1rem rgba(255, 255, 255, 0.1);
+[data-bs-theme="dark"] .container-fluid .row .col-12 .card.tool-card:hover,
+[data-bs-theme="dark"] .container-fluid .card.tool-card:hover {
+  background-color: #2d3748 !important;
+  box-shadow: 0 0.5rem 1rem rgba(255, 255, 255, 0.1) !important;
 }
 
-[data-bs-theme="dark"] .text-muted {
+[data-bs-theme="dark"] .container-fluid .card.tool-card .text-muted {
   color: #adb5bd !important;
 }
 
 /* 响应式优化 */
 @media (max-width: 768px) {
-  .display-4 {
-    font-size: 2rem;
+  .container-fluid .display-4 {
+    font-size: 2rem !important;
   }
   
-  .tool-card {
-    margin-bottom: 1rem;
+  .container-fluid .card.tool-card {
+    margin-bottom: 1rem !important;
   }
 }
 
 @media (max-width: 576px) {
   .container-fluid {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
   }
   
-  .tool-icon i {
-    font-size: 2rem;
+  .container-fluid .tool-icon i {
+    font-size: 2rem !important;
   }
 }
 </style>
