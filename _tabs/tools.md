@@ -1,4 +1,5 @@
 ---
+layout: page
 icon: fas fa-tools
 order: 2
 ---
@@ -109,11 +110,14 @@ order: 2
   transition: all 0.3s ease;
   border-radius: 15px;
   overflow: hidden;
+  background-color: var(--card-bg);
+  border: 1px solid var(--main-border-color);
 }
 
 .tool-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+  box-shadow: var(--card-shadow);
+  background-color: var(--card-hovor-bg);
 }
 
 .tool-icon {
@@ -130,19 +134,7 @@ order: 2
 
 .coming-soon:hover {
   transform: none;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
-}
-
-/* 深色模式支持 */
-@media (prefers-color-scheme: dark) {
-  .tool-card {
-    background-color: var(--bs-dark);
-    border: 1px solid var(--bs-gray-700);
-  }
-  
-  .tool-card:hover {
-    box-shadow: 0 10px 25px rgba(255,255,255,0.1) !important;
-  }
+  box-shadow: var(--card-shadow);
 }
 
 /* 响应式优化 */
@@ -163,7 +155,7 @@ order: 2
   }
   
   .tool-icon i {
-    font-size: 2rem !important;
+    font-size: 2rem;
   }
 }
 </style>
