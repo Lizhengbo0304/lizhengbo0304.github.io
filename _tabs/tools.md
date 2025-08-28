@@ -140,6 +140,16 @@ order: 2
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
 }
 
+/* 按钮容器布局优化 */
+.container-fluid .card.tool-card .mt-auto {
+  margin-top: auto !important;
+  padding: 0 1rem 1rem 1rem !important; /* 左右和底部间距 */
+}
+
+.container-fluid .card.tool-card .d-grid {
+  margin: 0 !important; /* 移除默认margin */
+}
+
 /* 按钮样式强化 */
 .container-fluid .card.tool-card .btn {
   border-radius: 8px !important;
@@ -149,6 +159,7 @@ order: 2
   transition: all 0.3s ease !important;
   border: none !important;
   text-decoration: none !important;
+  width: 100% !important; /* 确保按钮拉伸到容器宽度 */
 }
 
 .container-fluid .card.tool-card .btn:hover {
