@@ -144,12 +144,78 @@ order: 2
 .container-fluid .card.tool-card .btn {
   border-radius: 8px !important;
   font-weight: 600 !important;
+  font-size: 1rem !important;
+  padding: 0.75rem 1.5rem !important;
   transition: all 0.3s ease !important;
+  border: none !important;
+  text-decoration: none !important;
 }
 
 .container-fluid .card.tool-card .btn:hover {
   transform: translateY(-2px) !important;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+  text-decoration: none !important;
+}
+
+/* 主要按钮样式 */
+.container-fluid .card.tool-card .btn-primary {
+  background-color: #0d6efd !important;
+  color: #ffffff !important;
+}
+
+.container-fluid .card.tool-card .btn-primary:hover {
+  background-color: #0b5ed7 !important;
+  color: #ffffff !important;
+}
+
+/* 成功按钮样式 */
+.container-fluid .card.tool-card .btn-success {
+  background-color: #198754 !important;
+  color: #ffffff !important;
+}
+
+.container-fluid .card.tool-card .btn-success:hover {
+  background-color: #157347 !important;
+  color: #ffffff !important;
+}
+
+/* 信息按钮样式 */
+.container-fluid .card.tool-card .btn-info {
+  background-color: #0dcaf0 !important;
+  color: #000000 !important;
+}
+
+.container-fluid .card.tool-card .btn-info:hover {
+  background-color: #31d2f2 !important;
+  color: #000000 !important;
+}
+
+/* 次要按钮样式（敬请期待） */
+.container-fluid .card.tool-card .btn-outline-secondary {
+  background-color: transparent !important;
+  border: 2px solid #6c757d !important;
+  color: #6c757d !important;
+}
+
+.container-fluid .card.tool-card .btn-outline-secondary:hover {
+  background-color: #6c757d !important;
+  color: #ffffff !important;
+}
+
+.container-fluid .card.tool-card .btn-outline-secondary:disabled {
+  background-color: transparent !important;
+  border-color: #6c757d !important;
+  color: #6c757d !important;
+  opacity: 0.65 !important;
+  cursor: not-allowed !important;
+}
+
+.container-fluid .card.tool-card .btn-outline-secondary:disabled:hover {
+  transform: none !important;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  border-color: #6c757d !important;
+  color: #6c757d !important;
 }
 
 /* 图标颜色强化 */
@@ -187,6 +253,32 @@ order: 2
   .container-fluid .card.tool-card .text-muted {
     color: #adb5bd !important;
   }
+  
+  /* 深色模式下的按钮样式 */
+  .container-fluid .card.tool-card .btn-info {
+    background-color: #0dcaf0 !important;
+    color: #000000 !important;
+  }
+  
+  .container-fluid .card.tool-card .btn-info:hover {
+    background-color: #31d2f2 !important;
+    color: #000000 !important;
+  }
+  
+  .container-fluid .card.tool-card .btn-outline-secondary {
+    border-color: #adb5bd !important;
+    color: #adb5bd !important;
+  }
+  
+  .container-fluid .card.tool-card .btn-outline-secondary:hover {
+    background-color: #adb5bd !important;
+    color: #000000 !important;
+  }
+  
+  .container-fluid .card.tool-card .btn-outline-secondary:disabled {
+    border-color: #6c757d !important;
+    color: #6c757d !important;
+  }
 }
 
 [data-bs-theme="dark"] .container-fluid .row .col-12 .card.tool-card,
@@ -204,6 +296,32 @@ order: 2
 
 [data-bs-theme="dark"] .container-fluid .card.tool-card .text-muted {
   color: #adb5bd !important;
+}
+
+/* data-bs-theme="dark" 下的按钮样式 */
+[data-bs-theme="dark"] .container-fluid .card.tool-card .btn-info {
+  background-color: #0dcaf0 !important;
+  color: #000000 !important;
+}
+
+[data-bs-theme="dark"] .container-fluid .card.tool-card .btn-info:hover {
+  background-color: #31d2f2 !important;
+  color: #000000 !important;
+}
+
+[data-bs-theme="dark"] .container-fluid .card.tool-card .btn-outline-secondary {
+  border-color: #adb5bd !important;
+  color: #adb5bd !important;
+}
+
+[data-bs-theme="dark"] .container-fluid .card.tool-card .btn-outline-secondary:hover {
+  background-color: #adb5bd !important;
+  color: #000000 !important;
+}
+
+[data-bs-theme="dark"] .container-fluid .card.tool-card .btn-outline-secondary:disabled {
+  border-color: #6c757d !important;
+  color: #6c757d !important;
 }
 
 /* 响应式优化 */
