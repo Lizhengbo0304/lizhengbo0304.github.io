@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Ubuntu 20.04 Kiosk 模式完整配置方案"
-date: 2025-11-17 18:00:00 +0800
+date: 2025-11-07 18:00:00 +0800
 categories: [Linux, Kiosk]
 tags: [ubuntu, kiosk, openbox, lightdm]
 ---
