@@ -284,33 +284,164 @@ mkdir -p ~/.config/openbox
 
 `autostart` 脚本会在 Openbox 会话启动时自动执行。我们将在这里定义 Kiosk 环境的行为。
 
-创建一个新文件 `~/.config/openbox/autostart` 并添加以下内容：
+创建一个新文件 `~/.config/openbox/autostart` 并添加以下内容。这个新脚本增加了对多显示器的支持，并提供了更详细的日志记录功能：
 
 ```bash
 #!/bin/bash
+
+# ==================== 环境变量配置 ====================
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+export DISPLAY=:0
+export LANG=zh_CN.UTF-8
+export LC_ALL=zh_CN.UTF-8
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_HOME="$HOME/.local/share"
+
+# ==================== 启动日志 ====================
+exec > /tmp/kiosk-autostart.log 2>&1
+echo "=== Autostart 开始于 $(date) ==="
+echo "PATH: $PATH"
+echo "DISPLAY: $DISPLAY"
+echo "USER: $USER"
+echo "HOME: $HOME"
+echo "SHELL: $SHELL"
+echo "当前 Shell: $(readlink /proc/$$/exe)"
+
+# ==================== 等待 X Server ====================
+echo "等待 X Server 就绪..."
+sleep 3
+
+# 启动 D-Bus（如果需要）
+if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
+    echo "启动 D-Bus 会话总线..."
+    eval $(dbus-launch --sh-syntax --exit-with-session)
+    export DBUS_SESSION_BUS_ADDRESS
+    echo "DBUS_SESSION_BUS_ADDRESS: $DBUS_SESSION_BUS_ADDRESS"
+fi
+
+# ==================== 显示器配置（sh 兼容版本）====================
+echo "配置显示器..."
+
+# 获取已连接的显示器数量
+NUM_DISPLAYS=$(xrandr | grep " connected" | wc -l)
+echo "检测到 $NUM_DISPLAYS 个显示器"
+
+# 获取显示器名称（不使用数组）
+PRIMARY_DISPLAY=$(xrandr | grep " connected" | head -1 | awk '{print $1}')
+SECONDARY_DISPLAY=$(xrandr | grep " connected" | tail -1 | awk '{print $1}')
+
+echo "主显示器: $PRIMARY_DISPLAY"
+echo "副显示器: $SECONDARY_DISPLAY"
+
+if [ "$NUM_DISPLAYS" -eq 0 ]; then
+    echo "错误: 未检测到显示器"
+    exit 1
+    
+elif [ "$NUM_DISPLAYS" -eq 1 ]; then
+    # 单屏模式
+    echo "配置单屏模式"
+    xrandr --output "$PRIMARY_DISPLAY" --primary --auto
+    
+elif [ "$NUM_DISPLAYS" -eq 2 ]; then
+    # 双屏模式
+    echo "配置双屏模式"
+    
+    # 检查是否是不同的显示器
+    if [ "$PRIMARY_DISPLAY" != "$SECONDARY_DISPLAY" ]; then
+        xrandr --output "$PRIMARY_DISPLAY" --primary --auto --pos 0x0 --rotate normal \
+               --output "$SECONDARY_DISPLAY" --auto --right-of "$PRIMARY_DISPLAY" --rotate normal
+        echo "双屏配置完成"
+    else
+        xrandr --output "$PRIMARY_DISPLAY" --primary --auto
+        echo "仅一个显示器"
+    fi
+    
+else
+    # 三屏或更多（使用循环处理）
+    echo "配置多屏模式 ($NUM_DISPLAYS 个显示器)"
+    
+    # 配置主显示器
+    xrandr --output "$PRIMARY_DISPLAY" --primary --auto --pos 0x0
+    
+    # 获取所有显示器并逐个配置
+    PREV_DISPLAY="$PRIMARY_DISPLAY"
+    xrandr | grep " connected" | tail -n +2 | awk '{print $1}' | while read CURRENT_DISPLAY; do
+        echo "配置显示器: $CURRENT_DISPLAY (在 $PREV_DISPLAY 右侧)"
+        xrandr --output "$CURRENT_DISPLAY" --auto --right-of "$PREV_DISPLAY"
+        PREV_DISPLAY="$CURRENT_DISPLAY"
+    done
+fi
+
+# 验证配置
+echo "显示器配置完成，当前状态："
+xrandr | grep " connected"
+
+# ==================== 系统配置 ====================
+echo "应用系统配置..."
 
 # 禁用屏幕保护和电源管理
 xset s off
 xset -dpms
 xset s noblank
 
-# 在 3 秒无活动后隐藏鼠标指针
+# 隐藏鼠标指针
 unclutter -idle 3 &
 
-# 设置壁纸（可选）
-# nitrogen --restore &
+# 等待显示配置稳定
+echo "等待显示配置稳定..."
+sleep 3
 
-# 等待窗口管理器完全启动
-sleep 2
+# ==================== 启动应用 ====================
+echo "启动 Kiosk 应用..."
 
-# 启动您的 Kiosk 应用（此处以 Firefox 为例）
-# 这是一个无限循环，如果应用崩溃，它会在 2 秒后自动重启
+# 查找 Firefox
+FIREFOX_PATH=$(which firefox)
+if [ -z "$FIREFOX_PATH" ]; then
+    FIREFOX_PATH="/usr/bin/firefox"
+fi
+
+echo "Firefox 路径: $FIREFOX_PATH"
+
+if [ ! -x "$FIREFOX_PATH" ]; then
+    echo "错误: 找不到可执行的 Firefox"
+    exit 1
+fi
+
+# Firefox 环境变量
+export MOZ_CRASHREPORTER_DISABLE=1
+export MOZ_DISABLE_AUTO_SAFE_MODE=1
+
+# 清理旧的锁文件
+rm -f ~/.mozilla/firefox/*.default*/.parentlock 2>/dev/null
+
+# 启动应用循环
+RESTART_COUNT=0
 while true; do
-    # 将下面的命令替换为您的实际应用
-    firefox --kiosk https://example.com
+    RESTART_COUNT=$((RESTART_COUNT + 1))
+    echo "启动 Firefox (第 $RESTART_COUNT 次) - $(date)"
+    
+    "$FIREFOX_PATH" --kiosk https://example.com
+    
+    EXIT_CODE=$?
+    echo "Firefox 退出，退出码: $EXIT_CODE"
+    
+    # 等待后重启
+    echo "等待 2 秒后重启..."
     sleep 2
 done
 ```
+
+### 多屏排列方式说明
+
+新的 `autostart` 脚本通过 `xrandr` 命令自动检测并配置所有连接的显示器。其排列逻辑如下：
+
+1.  **识别主显示器**：脚本将 `xrandr` 输出的第一个 "connected" 设备作为主显示器。
+2.  **单屏模式**：如果只检测到一个显示器，则自动配置为最佳分辨率。
+3.  **双屏模式**：自动将第二个显示器配置在主显示器的右侧。
+4.  **三屏或更多**：脚本会以链式方式排列屏幕，即第二个屏幕在第一个右侧，第三个在第二个右侧，以此类推。
+
+这种“从左到右”的排列方式适用于大多数标准设置。如果您需要更复杂的布局（例如垂直堆叠或矩阵排列），您可以手动修改脚本中的 `xrandr` 命令。例如，使用 `--below` 或 `--left-of` 选项来改变相对位置。
 
 然后，赋予该脚本执行权限：
 
