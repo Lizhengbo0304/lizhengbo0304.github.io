@@ -593,7 +593,7 @@ sudo usermod -aG autologin kiosk
 
 `dm-tool` 是一个与显示管理器（如 LightDM）交互的命令行工具。我们可以使用它来切换回登录界面（greeter）。
 
-在 [步骤 4：配置 Openbox Kiosk 会话](#步骤-4-配置-openbox-kiosk-会话) 中，我们已经在 `/home/kiosk/.config/openbox/rc.xml` 文件中配置了以下快捷键：
+在 [步骤 4：配置 Openbox Kiosk 会话](#步骤-4配置-openbox-kiosk-会话) 中，我们已经在 `/home/kiosk/.config/openbox/rc.xml` 文件中配置了以下快捷键：
 
 ```xml
 <!-- Ctrl+Alt+Shift+G: 切换到登录界面 -->
