@@ -21,23 +21,20 @@ tags: [ubuntu, kiosk, openbox, lightdm]
 
 以下是详细的配置步骤。请按照顺序执行，以确保系统正确设置。
 
-- **[步骤 1：系统准备与更新](#step-1)**
-- **[步骤 2：安装必要组件](#step-2)**
-- **[步骤 3：创建 Kiosk 用户](#step-3)**
-- **[步骤 4：配置 Openbox Kiosk 会话](#step-4)**
-- **[步骤 5：创建 Openbox 会话入口](#step-5)**
-- **[步骤 6：配置 LightDM 自动登录](#step-6)**
-- **[步骤 7：配置会话切换](#step-7)**
-- **[步骤 8：测试和验证](#step-8)**
-
-## 附加信息
-
-- **[故障排除](#appendix-a)**
-- **[维护和更新](#appendix-b)**
+- [步骤 1：系统准备与更新](#步骤-1系统准备与更新)
+- [步骤 2：安装 Openbox 和必要组件](#步骤-2安装-openbox-和必要组件)
+- [步骤 3：创建 Kiosk 用户](#步骤-3创建-kiosk-用户)
+- [步骤 4：配置 Openbox Kiosk 会话](#步骤-4配置-openbox-kiosk-会话)
+- [步骤 5：创建 Openbox 会话入口](#步骤-5创建-openbox-会话入口)
+- [步骤 6：配置 LightDM 自动登录](#步骤-6配置-lightdm-自动登录)
+- [步骤 7：配置会话切换](#步骤-7配置会话切换)
+- [步骤 8：最后的收尾工作](#步骤-8最后的收尾工作)
+- [附录 A：通用故障排查指南](#附录-a通用故障排查指南)
+- [附录 B：系统维护与安全](#附录-b系统维护与安全)
 
 ---
 
-# 步骤 1：系统准备与更新 {: #step-1}
+# 步骤 1：系统准备与更新
 
 在开始配置 Kiosk 模式之前，请确保您的 Ubuntu 20.04 系统已完全更新，并安装了所有必要的工具。
 
@@ -123,7 +120,7 @@ sudo apt install -y vim git curl wget
 
 ---
 
-# 步骤 2：安装 Openbox 和必要组件 {: #step-2}
+# 步骤 2：安装 Openbox 和必要组件
 
 为了构建轻量级的 Kiosk 环境，我们需要安装 Openbox 窗口管理器、LightDM 显示管理器以及一些辅助工具。
 
@@ -205,7 +202,7 @@ sudo apt install -y \
 
 ---
 
-# 步骤 3：创建 Kiosk 用户 {: #step-3}
+# 步骤 3：创建 Kiosk 用户
 
 为了安全起见，我们将创建一个专用的、低权限的 `kiosk` 用户来运行 Kiosk 会话。
 
@@ -267,7 +264,7 @@ sudo chmod 755 /home/kiosk
 
 ---
 
-# 步骤 4：配置 Openbox Kiosk 会话 {: #step-4}
+# 步骤 4：配置 Openbox Kiosk 会话
 
 现在，我们将为 `kiosk` 用户配置 Openbox 环境，使其在登录时自动启动您的应用程序。
 
@@ -437,7 +434,7 @@ Openbox 的 XML 配置文件对格式要求非常严格。任何语法错误都�
 
 ---
 
-# 步骤 5：创建 Openbox 会话入口 {: #step-5}
+# 步骤 5：创建 Openbox 会话入口
 
 为了让 LightDM 显示管理器识别我们的 Openbox Kiosk 会话，我们需要创建一个 `.desktop` 会话文件。
 
@@ -498,7 +495,7 @@ sudo chmod 644 /usr/share/xsessions/openbox-kiosk.desktop
 
 ---
 
-# 步骤 6：配置 LightDM 自动登录 {: #step-6}
+# 步骤 6：配置 LightDM 自动登录
 
 现在，我们将配置 LightDM，使其在系统启动时自动登录到我们创建的 `kiosk` 用户和 `Openbox Kiosk` 会话。
 
@@ -588,7 +585,7 @@ sudo usermod -aG autologin kiosk
 
 ---
 
-# 步骤 7：配置会话切换 {: #step-7}
+# 步骤 7：配置会话切换
 
 一个关键的需求是能够从 Kiosk 模式轻松切换到管理会话（GNOME）。我们将通过一个快捷键来实现这一点。
 
@@ -656,7 +653,7 @@ sudo usermod -aG autologin kiosk
 
 ---
 
-# 步骤 8：最后的收尾工作 {: #step-8}
+# 步骤 8：最后的收尾工作
 
 在完成所有配置后，我们需要进行一些最后的清理和验证，以确保 Kiosk 系统稳定可靠。
 
@@ -708,7 +705,7 @@ cp /home/kiosk/.config/openbox/autostart ~/kiosk_backup/
 
 ---
 
-# 附录 A：通用故障排查指南 {: #appendix-a}
+# 附录 A：通用故障排查指南
 
 本指南汇总了在配置和维护 Kiosk 系统时可能遇到的常见问题及其解决方案。
 
@@ -836,7 +833,7 @@ cp /home/kiosk/.config/openbox/autostart ~/kiosk_backup/
 
 ---
 
-# 附录 B：系统维护与安全 {: #appendix-b}
+# 附录 B：系统维护与安全
 
 ## 1. 系统更新
 
