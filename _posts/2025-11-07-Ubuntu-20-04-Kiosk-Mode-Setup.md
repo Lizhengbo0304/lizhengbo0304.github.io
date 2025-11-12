@@ -493,8 +493,34 @@ chmod +x ~/.config/openbox/autostart
       <decor>no</decor>
     </application>
   </applications>
-</openbox_config>
+  </openbox_config>
 ```
+
+### 新增：取出鼠标右键菜单（禁用 Openbox 根菜单）
+
+在 Kiosk 环境中，建议禁用 Openbox 桌面上的右键根菜单，以防止用户通过桌面菜单进行操作。编辑 `~/.config/openbox/rc.xml`，在 `<openbox_config>` 内添加以下 `<mouse>` 配置：
+
+```xml
+<mouse>
+  <!-- 禁用桌面右键/中键根菜单 -->
+  <context name="Root">
+    <mousebind button="Right" action="Press">
+      <action name="None"/>
+    </mousebind>
+    <mousebind button="Middle" action="Press">
+      <action name="None"/>
+    </mousebind>
+  </context>
+</mouse>
+```
+
+应用后，重新加载 Openbox 配置使其生效：
+
+```bash
+openbox --reconfigure
+```
+
+注：此改动仅移除桌面上的 Openbox 根菜单，不会影响应用程序自身的右键菜单行为。
 
 完成以上步骤后，退出 `kiosk` 用户，返回到您的管理员账户：
 
