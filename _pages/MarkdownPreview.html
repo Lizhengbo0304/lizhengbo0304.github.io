@@ -388,13 +388,28 @@ permalink: /markdown-preview/
         
         // 主题切换功能
         function initTheme() {
+            const params = new URLSearchParams(window.location.search);
+            const urlTheme = params.get('theme');
+            if (urlTheme === 'dark' || urlTheme === 'light') {
+                html.classList.toggle('dark', urlTheme === 'dark');
+                localStorage.setItem('theme', urlTheme);
+                return;
+            }
+            const siteTheme = document.documentElement.getAttribute('data-theme');
+            const bsTheme = document.documentElement.getAttribute('data-bs-theme');
+            const inheritedTheme = bsTheme || siteTheme;
+            if (inheritedTheme) {
+                html.classList.toggle('dark', inheritedTheme === 'dark');
+                localStorage.setItem('theme', inheritedTheme);
+                return;
+            }
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme) {
                 html.classList.toggle('dark', savedTheme === 'dark');
-            } else {
-                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                html.classList.toggle('dark', prefersDark);
+                return;
             }
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            html.classList.toggle('dark', prefersDark);
         }
         
         themeToggle.addEventListener('click', () => {

@@ -314,17 +314,40 @@ permalink: /lottery-generator/
     <script>
         // 页面加载时检查系统主题偏好并应用
         document.addEventListener('DOMContentLoaded', () => {
-            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                document.documentElement.classList.add('dark');
+            const html = document.documentElement;
+            const params = new URLSearchParams(window.location.search);
+            const urlTheme = params.get('theme');
+            if (urlTheme === 'dark' || urlTheme === 'light') {
+                html.classList.toggle('dark', urlTheme === 'dark');
+                localStorage.setItem('theme', urlTheme);
+            } else {
+                const siteTheme = html.getAttribute('data-theme');
+                const bsTheme = html.getAttribute('data-bs-theme');
+                const inheritedTheme = bsTheme || siteTheme;
+                if (inheritedTheme) {
+                    html.classList.toggle('dark', inheritedTheme === 'dark');
+                    localStorage.setItem('theme', inheritedTheme);
+                } else {
+                    const savedTheme = localStorage.getItem('theme');
+                    if (savedTheme) {
+                        html.classList.toggle('dark', savedTheme === 'dark');
+                    } else if (window.matchMedia) {
+                        html.classList.toggle('dark', window.matchMedia('(prefers-color-scheme: dark)').matches);
+                    }
+                }
             }
-            
-            // 初始化页面配置
             updateLotteryLimits();
         });
 
         // 主题切换功能
         document.getElementById('themeToggle').addEventListener('click', () => {
-            document.documentElement.classList.toggle('dark');
+            const html = document.documentElement;
+            html.classList.toggle('dark');
+            const mode = html.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('theme', mode);
+            const url = new URL(window.location.href);
+            url.searchParams.set('theme', mode);
+            history.replaceState(null, '', url.pathname + '?' + url.searchParams.toString());
         });
 
         // 移动端菜单切换

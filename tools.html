@@ -130,3 +130,20 @@ permalink: /tools/
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 </style>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const html = document.documentElement;
+  const themeAttr = html.getAttribute('data-theme');
+  const bsThemeAttr = html.getAttribute('data-bs-theme');
+  const isDark = bsThemeAttr ? bsThemeAttr === 'dark' : themeAttr ? themeAttr === 'dark' : html.classList.contains('dark');
+  const mode = isDark ? 'dark' : 'light';
+  const selector = 'a[href^="/markdown-preview/"], a[href^="/lottery-generator/"]';
+  Array.from(document.querySelectorAll(selector)).forEach(a => {
+    try {
+      const url = new URL(a.href, window.location.origin);
+      url.searchParams.set('theme', mode);
+      a.href = url.pathname + '?' + url.searchParams.toString();
+    } catch {}
+  });
+});
+</script>
